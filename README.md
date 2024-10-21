@@ -2,7 +2,25 @@
 
 _Command line interface for managing Frame hybrid models_
 
-[![PyPI version](https://badge.fury.io/py/frame-cli.svg)](https://badge.fury.io/py/frame-cli)
+
+# 🐇 Quick start
+
+## Requirements
+
+- Python 3.9 or higher
+
+
+## Installation
+
+```bash
+pip install git+https://gitlab.com/sphamba/frame-cli.git
+```
+
+## Usage
+
+```bash
+frame-cli --help
+```
 
 
 # 💾 Installation for development
