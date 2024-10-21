@@ -1,0 +1,8 @@
+.coverage
+coverage.xml
+dist
+lcov.info
+__pycache__
+
+docs/build
+docs/auto_source

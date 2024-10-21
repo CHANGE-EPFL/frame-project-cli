@@ -1,0 +1,49 @@
+stages:
+  - code_check
+  - build
+  - test
+  - deploy
+
+lint:
+  stage: code_check
+  image: python:latest
+  script:
+    - pip install pre-commit
+    - pre-commit install
+    - pre-commit run --all-files
+
+package:
+  stage: build
+  image: python:latest
+  script:
+    - pip install build
+    - python3 -m build
+  artifacts:
+    when: on_success
+    paths:
+      - dist/
+    expire_in: 1 day
+
+test:
+  stage: test
+  parallel:
+    matrix:
+      - PYTHON_VERSION: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+  rules:
+  image: python:${PYTHON_VERSION}
+  script:
+    - pip install .[test]
+    - python3 -m pytest
+
+publish_pypi:
+  stage: deploy
+  image: python:latest
+  needs:
+    - job: package
+    - job: test
+  script:
+    - pip install twine
+    - TWINE_PASSWORD=${PYPI_TOKEN} TWINE_USERNAME=__token__
+          python3 -m twine upload --verbose dist/*
+  only:
+    - tags
