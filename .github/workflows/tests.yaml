@@ -1,0 +1,30 @@
+name: Tests
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  tests:
+    name: Test on ${{ matrix.os }}, Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -el {0}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        include:
+          - os: "ubuntu-latest"
+            python-version: "3.13"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install package
+        run: |
+          pip install -e ".[test]"
+
+      - name: Test with pytest
+        run: |
+          pytest
