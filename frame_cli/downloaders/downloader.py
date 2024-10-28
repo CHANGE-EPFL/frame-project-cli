@@ -11,13 +11,15 @@ class Downloader(ABC):
     def download(
         self,
         url: str,
+        *args,
         dest: Optional[str] = None,
+        **kwargs,
     ) -> None:
         """Download the content at the given URL.
 
         Args:
-            url (str): The URL of the content to download.
-            dest (str): The destination directory to save the content to. Defaults to None, which creates a new
+            url (str): URL of the content to download.
+            dest (str): Destination directory to save the content to. Defaults to None, which creates a new
                 directory from the repository name.
         """
         pass
