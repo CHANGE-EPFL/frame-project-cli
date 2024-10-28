@@ -28,14 +28,13 @@ class GitDownloader(Downloader):
                 branch.
 
         Raises:
-            GitCommandError: If the Git command fails.
+            GitCommandError: The Git command failed.
         """
         if dest is None:
             dest = url.split("/")[-1].replace(".git", "")
 
-        message = f'Cloning "{url}" into "{dest}"'
+        message = f'Cloning "{url}" into "{dest}"...'
         logger.debug(message)
-
         with Console().status(message):
             Repo.clone_from(url, dest, branch=branch)
 

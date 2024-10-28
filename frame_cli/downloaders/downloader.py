@@ -22,4 +22,3 @@ class Downloader(ABC):
             dest (str): Destination directory to save the content to. Defaults to None, which creates a new
                 directory from the repository name.
         """
-        pass
