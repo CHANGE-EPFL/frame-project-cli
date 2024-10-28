@@ -23,10 +23,16 @@ repos:
   - repo: https://github.com/codespell-project/codespell
     rev: v2.3.0
     hooks:
-    - id: codespell
-      additional_dependencies:
-        - tomli
-      exclude: >
-        (?x)^(
-          .*poetry\.lock
-        )$
+      - id: codespell
+        additional_dependencies:
+          - tomli
+        exclude: >
+          (?x)^(
+            .*poetry\.lock
+          )$
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.6.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []
