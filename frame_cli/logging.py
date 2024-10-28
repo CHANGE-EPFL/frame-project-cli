@@ -1,8 +1,8 @@
 import logging
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+from rich.logging import RichHandler
 
-if not logger.hasHandlers():
-    console_handler = logging.StreamHandler()
-    logger.addHandler(console_handler)
+FORMAT = "%(message)s"
+logging.basicConfig(level="INFO", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()])
+
+logger = logging.getLogger(__name__)

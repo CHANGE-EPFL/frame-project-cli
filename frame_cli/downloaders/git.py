@@ -3,6 +3,7 @@
 from typing import Optional
 
 from git import Repo
+from rich.console import Console
 
 from ..logging import logger
 from .downloader import Downloader
@@ -20,10 +21,10 @@ class GitDownloader(Downloader):
         """Download the content at the given URL (https or git protocol).
 
         Args:
-            url (str): The URL of the content to download.
-            dest (str): The destination directory to save the content to. Defaults to None, which infers the
-                destination from the URL.
-            branch (str): The branch to checkout after cloning. Defaults to None, which checks out the default
+            url (str): URL of the content to download.
+            dest (str): Destination directory to save the content to. Defaults to None, which infers the
+                destination from the URL (repository name).
+            branch (str): Branch to checkout after cloning. Defaults to None, which checks out the default
                 branch.
 
         Raises:
@@ -32,5 +33,10 @@ class GitDownloader(Downloader):
         if dest is None:
             dest = url.split("/")[-1].replace(".git", "")
 
-        logger.debug(f'Cloning "{url}" into "{dest}"')
-        Repo.clone_from(url, dest, branch=branch)
+        message = f'Cloning "{url}" into "{dest}"'
+        logger.debug(message)
+
+        with Console().status(message):
+            Repo.clone_from(url, dest, branch=branch)
+
+        logger.info(f'Cloned "{url}" into "{dest}"')
