@@ -12,13 +12,13 @@ class Downloader(ABC):
         self,
         url: str,
         *args,
-        dest: Optional[str] = None,
+        destination: Optional[str] = None,
         **kwargs,
     ) -> None:
         """Download the content at the given URL.
 
         Args:
             url (str): URL of the content to download.
-            dest (str): Destination directory to save the content to. Defaults to None, which creates a new
+            destination (str): Destination directory to save the content to. Defaults to None, which creates a new
                 directory from the repository name.
         """
