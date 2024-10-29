@@ -33,14 +33,14 @@ class ZenodoDownloader(Downloader):
     def download(
         self,
         url: str,
-        dest: Optional[str] = None,
+        destination: Optional[str] = None,
     ) -> None:
         f"""Download the Zenodo dataset with the given DOI.
 
         Args:
             url (str): URL or DOI of the content to download, ending in "{ZENODO_DOI_PREFIX}/zenodo.XXXX" for
                 Zenodo datasets or "{ZENODO_SANDBOX_PREFIX}/zenodo.XXXX" for Zenodo sandbox datasets.
-            dest (str): Destination directory to save the content to. Defaults to None, which infers the
+            destination (str): Destination directory to save the content to. Defaults to None, which infers the
                 destination from the URL (dataset ID).
 
         Raises:
@@ -57,15 +57,15 @@ class ZenodoDownloader(Downloader):
         record = response.json()
 
         # Create destination folder if it does not exist
-        if dest is None:
-            dest = dataset_id
-        if not os.path.exists(dest):
-            os.makedirs(dest)
-        if os.listdir(dest):
-            raise FileExistsError(f'Destination directory "{dest}" is not empty.')
+        if destination is None:
+            destination = dataset_id
+        if not os.path.exists(destination):
+            os.makedirs(destination)
+        if os.listdir(destination):
+            raise FileExistsError(f'Destination directory "{destination}" is not empty.')
 
         # Download files
-        _download_files(record, dest)
+        _download_files(record, destination)
 
 
 class ZenodoError(Exception):
@@ -125,7 +125,13 @@ def _get_host_and_id_from_url(url: str) -> tuple[str, str]:
     return host, dataset_id
 
 
-def _download_files(record, destination) -> None:
+def _download_files(record: dict, destination: str) -> None:
+    """Download all files from the given Zenodo record.
+
+    Args:
+        record (dict): Zenodo record information.
+        destination (str): Destination directory to save the files to.
+    """
     # Download files
     n_files = len(record["files"])
     key = ""
@@ -166,7 +172,16 @@ def _download_files(record, destination) -> None:
         logger.info(f'Unzipped "{key}".')
 
 
-def _download_file(url, key, path, progress, task_id: TaskID) -> None:
+def _download_file(url: str, key: str, path: str, progress: Progress, task_id: TaskID) -> None:
+    """Download the file from the given URL.
+
+    Args:
+        url (str): URL of the file to download.
+        key (str): Name of the file.
+        path (str): Path to save the file to.
+        progress (Progress): Rich progress tracker.
+        task_id (TaskID): Rich task ID.
+    """
     # Create directory if necessary
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
