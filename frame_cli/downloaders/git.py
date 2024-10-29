@@ -3,7 +3,7 @@
 from typing import Optional
 
 from git import Repo
-from rich.console import Console
+from rich.status import Status
 
 from ..logging import logger
 from .downloader import Downloader
@@ -35,7 +35,7 @@ class GitDownloader(Downloader):
 
         message = f'Cloning "{url}" into "{dest}"...'
         logger.debug(message)
-        with Console().status(message):
+        with Status(message):
             Repo.clone_from(url, dest, branch=branch)
 
         logger.info(f'Cloned "{url}" into "{dest}"')

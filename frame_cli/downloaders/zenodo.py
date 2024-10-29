@@ -8,7 +8,6 @@ from threading import Event
 from typing import Optional
 
 import requests
-from rich.console import Console
 from rich.progress import (
     BarColumn,
     DownloadColumn,
@@ -18,6 +17,7 @@ from rich.progress import (
     TimeRemainingColumn,
     TransferSpeedColumn,
 )
+from rich.status import Status
 
 from ..logging import logger
 from .downloader import Downloader
@@ -160,7 +160,7 @@ def _download_files(record, destination) -> None:
     if n_files == 1 and key.endswith(".zip") and not stop_event.is_set():
         message = f'Unzipping "{key}"...'
         logger.debug(message)
-        with zipfile.ZipFile(path, "r") as zip_ref, Console().status(message):
+        with zipfile.ZipFile(path, "r") as zip_ref, Status(message):
             zip_ref.extractall(destination)
         os.remove(path)
         logger.info(f'Unzipped "{key}".')
