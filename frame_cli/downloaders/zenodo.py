@@ -1,18 +1,30 @@
 """Module containing the ZenodoDownloader class."""
 
 import os
+import signal
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
+from threading import Event
 from typing import Optional
 
 import requests
 from rich.console import Console
-from rich.progress import BarColumn, DownloadColumn, Progress, TextColumn, TimeRemainingColumn, TransferSpeedColumn
+from rich.progress import (
+    BarColumn,
+    DownloadColumn,
+    Progress,
+    TaskID,
+    TextColumn,
+    TimeRemainingColumn,
+    TransferSpeedColumn,
+)
 
 from ..logging import logger
 from .downloader import Downloader
 
 ZENODO_DOI_PREFIX = "10.5281"
 ZENODO_SANDBOX_PREFIX = "10.5072"
+THREADS = 4
 
 
 class ZenodoDownloader(Downloader):
@@ -113,47 +125,15 @@ def _get_host_and_id_from_url(url: str) -> tuple[str, str]:
     return host, dataset_id
 
 
-def _download_files(record, destination):
+def _download_files(record, destination) -> None:
     # Download files
     n_files = len(record["files"])
     key = ""
     path = ""
 
-    message = f'Downloading {n_files} files into "{destination}"...'
-    logger.debug(message)
-    with Console().status(message):
-        for i in range(n_files):
-            file = record["files"][i]
-            url = file["links"]["self"]
-            key = file["key"]
-            path = os.path.join(destination, key)
-
-            # Download file
-            logger.info(f"({i+1}/{n_files}) Downloading {key}...")
-            try:
-                _download_file(url, key, path)
-            except ValueError as e:
-                logger.error(e)
-                continue
-
-    # If only one file which is a zip, unzip it and remove the zip
-    if n_files == 1 and key.endswith(".zip"):
-        message = f'Unzipping "{key}"...'
-        logger.debug(message)
-        with zipfile.ZipFile(path, "r") as zip_ref, Console().status(message):
-            zip_ref.extractall(destination)
-        os.remove(path)
-
-
-def _download_file(url, key, path):
-    # Create directory if necessary
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-
-    response = requests.get(url, stream=True)
-    _check_request_response(response, f"downloading {key}")
-
-    size = int(response.headers.get("content-length", 0))
-    with open(path, "wb") as file, Progress(
+    stop_event.clear()
+    logger.info(f'Downloading {n_files} file{"s" if n_files > 1 else ""} into "{destination}"...')
+    with Progress(
         TextColumn("[bold blue]{task.fields[filename]}", justify="right"),
         BarColumn(bar_width=None),
         "[progress.percentage]{task.percentage:>3.1f}%",
@@ -164,8 +144,55 @@ def _download_file(url, key, path):
         "•",
         TimeRemainingColumn(),
     ) as progress:
-        task = progress.add_task(key, filename=key, total=size)
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for i in range(n_files):
+                file = record["files"][i]
+                url = file["links"]["self"]
+                key = file["key"]
+                path = os.path.join(destination, key)
+
+                # Download file
+                logger.debug(f"({i+1}/{n_files}) Downloading {key}...")
+                task_id = progress.add_task("({i+1}/{n_files}) {key}", filename=key, start=False)
+                pool.submit(_download_file, url, key, path, progress, task_id)
+
+    # If only one file which is a zip, unzip it and remove the zip
+    if n_files == 1 and key.endswith(".zip") and not stop_event.is_set():
+        message = f'Unzipping "{key}"...'
+        logger.debug(message)
+        with zipfile.ZipFile(path, "r") as zip_ref, Console().status(message):
+            zip_ref.extractall(destination)
+        os.remove(path)
+        logger.info(f'Unzipped "{key}".')
+
+
+def _download_file(url, key, path, progress, task_id: TaskID) -> None:
+    # Create directory if necessary
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    response = requests.get(url, stream=True)
+    _check_request_response(response, f"downloading {key}")
+    size = int(response.headers.get("content-length", 0))
+    progress.update(task_id, total=size)
+
+    with open(path, "wb") as file:
+        progress.start_task(task_id)
 
         for chunk in response.iter_content(chunk_size=1024):
             file.write(chunk)
-            progress.update(task, advance=len(chunk))
+            progress.update(task_id, advance=len(chunk))
+
+            if stop_event.is_set():
+                return
+
+
+# Handle termination
+
+
+def handle_sigint(sig, frame):
+    stop_event.set()
+    logger.warning("Download interrupted.")
+
+
+stop_event = Event()
+signal.signal(signal.SIGINT, handle_sigint)
