@@ -18,6 +18,14 @@ pip install git+https://gitlab.com/sphamba/frame-cli.git
 
 ## Usage
 
+Create a `.env` file in the root of your project with the following content (or export environment variables in your shell):
+```bash
+FRAME_CLI_LOGGING_LEVEL=INFO
+```
+
+
+Then run:
+
 ```bash
 frame-cli --help
 ```

@@ -1,6 +1,7 @@
 .coverage
 coverage.xml
 dist
+.env
 lcov.info
 __pycache__
 
