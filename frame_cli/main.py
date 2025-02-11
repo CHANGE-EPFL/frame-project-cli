@@ -21,14 +21,14 @@ app.add_typer(pull_app, name="pull")
 
 
 @list_app.command("hybrid-models")
-def list_hybrid_models(
+def list_models(
     remote: bool = typer.Option(False, help="List remote hybrid models."),
 ) -> None:
     """List installed and remote hybrid models."""
     if remote:
-        listing.list_remote_hybrid_models()
+        listing.list_remote_models()
     else:
-        listing.list_local_hybrid_models()
+        listing.list_local_models()
 
 
 @list_app.command("components")
@@ -45,11 +45,11 @@ def list_components(
 
 
 @pull_app.command("hybrid-model")
-def pull_hybrid_model(
+def pull_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
 ) -> None:
     """Download a hybrid model and seput environment."""
-    pull.pull_hybrid_model(name)
+    pull.pull_model(name)
 
 
 @pull_app.command("component")
