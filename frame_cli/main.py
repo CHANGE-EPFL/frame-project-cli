@@ -1,6 +1,10 @@
+from json import JSONDecodeError
+
+import requests
 import typer
 
-from frame_cli import listing, pull
+from . import listing, pull
+from .config import API_URL
 
 app = typer.Typer(
     help="Frame tool to download hybrid models and setup environments.",
@@ -18,6 +22,28 @@ pull_app = typer.Typer(
     no_args_is_help=True,
 )
 app.add_typer(pull_app, name="pull")
+
+
+@app.command()
+def check() -> None:
+    """Check the API access."""
+    url = f"{API_URL}/healthz"
+    response = requests.get(url)
+    if response.status_code != 200:
+        print("API is not accessible. Check the API URL.")
+        return
+
+    try:
+        data = response.json()
+    except JSONDecodeError:
+        print("Error decoding JSON. Check the API URL.")
+        return
+
+    if "status" not in data or data["status"] != "OK":
+        print("API is not healthy.")
+        return
+
+    print("API is healthy.")
 
 
 @list_app.command("hybrid-models")
