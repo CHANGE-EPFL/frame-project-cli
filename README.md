@@ -12,8 +12,9 @@ _Command line interface for managing Frame hybrid models_
 
 ## Installation
 
+We recommend you install the FRAME CLI inside a Python virtual environment, for example using [uv](https://github.com/astral-sh/uv) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). To install, run the following command in your terminal:
 ```bash
-pip install git+https://gitlab.com/sphamba/frame-cli.git
+pip install git+https://gitlab.com/CHANGE-EPFL/frame-project-cli.git
 ```
 
 ## Usage
