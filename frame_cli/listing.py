@@ -41,7 +41,9 @@ def list_remote_models() -> None:
 
 def list_local_models() -> None:
     """List installed hybrid models."""
-    raise NotImplementedError
+    # TODO: implement
+    print("Feature not implemented.")
+    print("Run with `--remote` to list remote hybrid models.")
 
 
 def list_remote_components(type: ComponentType | None) -> None:
@@ -85,4 +87,6 @@ def list_remote_components(type: ComponentType | None) -> None:
 
 def list_local_components(type: ComponentType | None) -> None:
     """List installed components."""
-    raise NotImplementedError
+    # TODO: implement
+    print("Feature not implemented.")
+    print("Run with `--remote` to list remote components.")
