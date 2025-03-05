@@ -3,13 +3,19 @@ from json import JSONDecodeError
 import requests
 import typer
 
-from . import listing, pull
+from . import listing, pull, show
 from .config import API_URL
 
 app = typer.Typer(
     help="Frame tool to download hybrid models and setup environments.",
     no_args_is_help=True,
 )
+
+show_app = typer.Typer(
+    help="Show information about a hybrid model or component.",
+    no_args_is_help=True,
+)
+app.add_typer(show_app, name="show")
 
 list_app = typer.Typer(
     help="List hybrid models or components.",
@@ -44,6 +50,35 @@ def check() -> None:
         return
 
     print("API is healthy.")
+
+
+@show_app.command("hybrid-model")
+def show_model(
+    name: str = typer.Argument(..., help="Hybrid model name."),
+    remote: bool = typer.Option(False, help="Show remote hybrid model info."),
+) -> None:
+    """Show information about a hybrid model."""
+    if remote:
+        show.show_local_model(name)
+    else:
+        show.show_remote_model(name)
+
+
+@show_app.command("component")
+def show_component(
+    name: str = typer.Argument(..., help="Component name."),
+    hybrid_model: str | None = typer.Argument(None, help="Associated local hybrid model name."),
+    remote: bool = typer.Option(False, help="Show remote component info."),
+) -> None:
+    """Show information about a component."""
+    if remote:
+        if hybrid_model:  # show error
+            print("Remote components are not associated with a local hybrid model. Remove the HYBRID_MODEL argument.")
+        show.show_remote_component(name)
+    else:
+        if not hybrid_model:
+            print("Local components are associated with a local hybrid model. Add the HYBRID_MODEL argument.")
+        show.show_local_component(name, hybrid_model)
 
 
 @list_app.command("hybrid-models")
