@@ -19,7 +19,7 @@ def list_remote_models() -> None:
     response = requests.get(url)
 
     if response.status_code != 200:
-        print("Error fetching remote hybrid models. Check the API URL.")
+        print(f"Error fetching remote hybrid models ({response.status_code}). Check the API URL.")
         return
 
     try:
@@ -59,7 +59,7 @@ def list_remote_components(type: ComponentType | None) -> None:
     response = requests.get(url)
 
     if response.status_code != 200:
-        print("Error fetching remote components. Check the API URL.")
+        print(f"Error fetching remote components ({response.status_code}). Check the API URL.")
         return
 
     try:

@@ -59,9 +59,9 @@ def show_model(
 ) -> None:
     """Show information about a hybrid model."""
     if remote:
-        show.show_local_model(name)
-    else:
         show.show_remote_model(name)
+    else:
+        show.show_local_model(name)
 
 
 @show_app.command("component")
@@ -74,10 +74,12 @@ def show_component(
     if remote:
         if hybrid_model:  # show error
             print("Remote components are not associated with a local hybrid model. Remove the HYBRID_MODEL argument.")
+            return
         show.show_remote_component(name)
     else:
         if not hybrid_model:
             print("Local components are associated with a local hybrid model. Add the HYBRID_MODEL argument.")
+            return
         show.show_local_component(name, hybrid_model)
 
 
