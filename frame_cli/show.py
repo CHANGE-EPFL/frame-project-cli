@@ -27,6 +27,10 @@ def print_keywords(console: Console, keywords: list[str], style) -> None:
         console.print(text)
 
 
+def print_pull_command(console: Console, command: str) -> None:
+    console.print(Panel(command))
+
+
 def show_remote_model(name: str) -> None:
     """Show information about a remote hybrid model."""
     url = f"{API_URL}/hybrid_models/{name}"
@@ -37,7 +41,7 @@ def show_remote_model(name: str) -> None:
         return
 
     if response.status_code != 200:
-        print(f"Error fetching remote hybrid models ({response.status_code}). Check the API URL.")
+        print(f"Error fetching remote hybrid model ({response.status_code}). Check the API URL.")
         return
 
     try:
@@ -65,7 +69,7 @@ def show_remote_model(name: str) -> None:
         console.print(f"📜 License: {info['license']}")
 
     console.print("")
-    console.print(Panel(f"frame-cli pull hybrid-model {name}"))
+    print_pull_command(console, f"frame-cli pull hybrid-model {name}")
 
 
 def show_local_model(name: str) -> None:
@@ -76,8 +80,50 @@ def show_local_model(name: str) -> None:
 
 def show_remote_component(name: str) -> None:
     """Show information about a remote component."""
-    # TODO: implement
-    print("Feature not implemented.")
+    url_physics_based = f"{API_URL}/components/physics_based/{name}"
+    url_machine_learning = f"{API_URL}/components/machine_learning/{name}"
+
+    response = requests.get(url_physics_based)
+    component_type = "Physics-based"
+
+    if response.status_code == 404:
+        response = requests.get(url_machine_learning)
+        component_type = "Machine learning"
+
+    if response.status_code == 404:
+        print(f'Remote component "{name}" not found.')
+        return
+
+    if response.status_code != 200:
+        print(f"Error fetching remote component ({response.status_code}). Check the API URL.")
+        return
+
+    try:
+        info = response.json()
+    except JSONDecodeError:
+        print("Error decoding JSON. Check the API URL.")
+        return
+
+    console = Console()
+    console.print("")
+    console.print(info["name"], style="bold underline")
+    console.print(f"{component_type} component")
+    console.print("")
+    console.print(", ".join(info["contributors"]))
+    console.print("")
+    console.print(info["description"])
+    console.print("")
+    print_keywords(console, info["keywords"], style="white on blue")
+    console.print("")
+
+    if "created" in info and info["created"]:
+        console.print(f"📅 Created on: {info['created']}")
+
+    if "license" in info and info["license"]:
+        console.print(f"📜 License: {info['license']}")
+
+    console.print("")
+    print_pull_command(console, f"frame-cli pull component {name}")
 
 
 def show_local_component(name: str, hybrid_model: str) -> None:
