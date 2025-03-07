@@ -8,6 +8,7 @@ from rich.console import Console
 from rich.table import Table
 
 from .config import API_URL
+from .info import get_global_info
 
 
 class ComponentType(str, Enum):
@@ -43,9 +44,20 @@ def list_remote_models() -> None:
 
 def list_local_models() -> None:
     """List installed hybrid models."""
-    # TODO: implement
-    print("Feature not implemented.")
     print("Run with `--remote` to list remote hybrid models.")
+
+    global_info = get_global_info()
+
+    title = "Local hybrid models"
+    table = Table(title=title, min_width=len(title) + 4)
+    table.add_column("Name")
+    table.add_column("Path")
+    for path, info in global_info["local_models"].items():
+        table.add_row(info["name"], path)
+
+    console = Console()
+    console.print("")
+    console.print(table)
 
 
 def list_remote_components(type: ComponentType | None) -> None:

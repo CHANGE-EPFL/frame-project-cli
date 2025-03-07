@@ -71,7 +71,3 @@ def set_local_model_info(model_path: str, info: dict) -> None:
 
     with open(info_path, "w") as file:
         yaml.dump(info, file)
-
-
-def get_local_models() -> dict[str, dict]:
-    """"""
