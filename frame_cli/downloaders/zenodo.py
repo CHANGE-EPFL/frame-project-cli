@@ -34,7 +34,7 @@ class ZenodoDownloader(Downloader):
         self,
         url: str,
         destination: Optional[str] = None,
-    ) -> None:
+    ) -> str:
         f"""Download the Zenodo dataset with the given DOI.
 
         Args:
@@ -42,6 +42,9 @@ class ZenodoDownloader(Downloader):
                 Zenodo datasets or "{ZENODO_SANDBOX_PREFIX}/zenodo.XXXX" for Zenodo sandbox datasets.
             destination (str): Destination directory to save the content to. Defaults to None, which infers the
                 destination from the URL (dataset ID).
+
+        Returns:
+            str: The destination directory.
 
         Raises:
             FileExistsError: The destination directory already exists.
@@ -66,6 +69,8 @@ class ZenodoDownloader(Downloader):
 
         # Download files
         _download_files(record, destination)
+
+        return destination
 
 
 class ZenodoError(Exception):

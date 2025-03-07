@@ -1,3 +1,5 @@
+"""Module for `frame-cli list` commands."""
+
 from enum import Enum
 from json import JSONDecodeError
 

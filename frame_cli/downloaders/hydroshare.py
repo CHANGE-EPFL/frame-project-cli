@@ -20,8 +20,11 @@ class HydroshareDownloader(Downloader):
         self,
         url: str,
         destination: Optional[str] = None,
-    ) -> None:
+    ) -> str:
         """Download the content at the given URL.
+
+        Returns:
+            str: The destination directory.
 
         Args:
             url (str): URL of the content to download.
@@ -46,6 +49,8 @@ class HydroshareDownloader(Downloader):
                 archive.extractall(destination)
 
         logger.info("Done!")
+
+        return destination
 
 
 def _check_url(url: str) -> None:
