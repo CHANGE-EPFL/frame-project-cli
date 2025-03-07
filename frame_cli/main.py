@@ -110,9 +110,10 @@ def list_components(
 @pull_app.command("hybrid-model")
 def pull_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
+    destination: str | None = typer.Argument(None, help="Destination folder."),
 ) -> None:
     """Download a hybrid model and seput environment."""
-    pull.pull_model(name)
+    pull.pull_model(name, destination)
 
 
 @pull_app.command("component")
