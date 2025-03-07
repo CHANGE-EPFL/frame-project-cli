@@ -1,3 +1,5 @@
+"""Module for `frame-cli show` commands."""
+
 from json import JSONDecodeError
 
 import requests

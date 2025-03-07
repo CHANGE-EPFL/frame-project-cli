@@ -1,3 +1,5 @@
+"""CLI entry point."""
+
 from json import JSONDecodeError
 
 import requests

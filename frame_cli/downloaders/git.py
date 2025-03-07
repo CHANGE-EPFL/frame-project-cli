@@ -17,7 +17,7 @@ class GitDownloader(Downloader):
         url: str,
         destination: Optional[str] = None,
         branch: Optional[str] = None,
-    ) -> None:
+    ) -> str:
         """Download the content at the given URL (https or git protocol).
 
         Args:
@@ -26,6 +26,9 @@ class GitDownloader(Downloader):
                 destination from the URL (repository name).
             branch (str): Branch to checkout after cloning. Defaults to None, which checks out the default
                 branch.
+
+        Returns:
+            str: The destination directory.
 
         Raises:
             GitCommandError: The Git command failed.
@@ -39,3 +42,5 @@ class GitDownloader(Downloader):
             Repo.clone_from(url, destination, branch=branch)
 
         logger.info(f'Cloned "{url}" into "{destination}"')
+
+        return destination
