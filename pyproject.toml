@@ -49,13 +49,8 @@ testpaths = [
     "tests",
 ]
 
-[tool.black]
+[tool.ruff]
 line-length = 120
-preview = true
-
-[tool.isort]
-line_length = 120
-profile = "black"
 
 [tool.codespell]
 skip = 'uv.lock'
