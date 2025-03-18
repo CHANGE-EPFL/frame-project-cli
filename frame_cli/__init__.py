@@ -1,3 +1,8 @@
 """Command line interface for managing Frame hybrid models"""
 
-__version__ = "0.0.0"
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    __version__ = version("frame-cli")
+except PackageNotFoundError:
+    pass
