@@ -9,7 +9,7 @@ from rich.panel import Panel
 from .config import API_URL
 
 
-def print_keywords(console: Console, keywords: list[str], style) -> None:
+def print_keywords(console: Console, keywords: list[str], style: str) -> None:
     """Print keywords in a Rich Console."""
     text = ""
     current_column = 0
@@ -115,7 +115,9 @@ def show_remote_component(name: str) -> None:
     console.print("")
     console.print(info["description"])
     console.print("")
-    print_keywords(console, info["keywords"], style="white on blue")
+    print_keywords(
+        console, info["keywords"], style="white on blue" if component_type == "Physics-based" else "white on cyan"
+    )
     console.print("")
 
     if "created" in info and info["created"]:
