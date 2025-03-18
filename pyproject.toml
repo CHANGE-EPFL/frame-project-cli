@@ -1,53 +1,46 @@
-[tool.poetry]
+[project]
 name = "frame-cli"
-version = "0.0.0"
+dynamic = ["version"]
 description = "Command line interface for managing Frame hybrid models"
 authors = [
-	"Son Pham-Ba <son.phamba@epfl.ch>",
+	{ name = "Son Pham-Ba", email = "son.phamba@epfl.ch" },
 ]
-license = "GPL-3.0-or-later"
+license = {text = "GPL-3.0-or-later"}
 readme = "README.md"
-packages = [{include = "frame_cli"}]
+requires-python = ">=3.10,<3.13"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-build = {version = "^1.2.2.post1", optional = true}
-pre-commit = {version = "^3.0.4", optional = true}
-pytest = {version = "^8.1.1", optional = true}
-pytest-cov = {version = "^5.0.0", optional = true}
-gitpython = "^3.1.43"
-python-dotenv = "^1.0.1"
-requests = "^2.32.3"
-rich = "^13.9.3"
-typer = "^0.15.1"
+dependencies = [
+	"gitpython~=3.1.43",
+	"python-dotenv~=1.0.1",
+	"requests~=2.32.3",
+	"rich~=13.9.3",
+	"typer~=0.15.1",
+]
 
-[tool.poetry.extras]
+[project.optional-dependencies]
 dev = [
-	"build",
-    "pre-commit",
-	"pytest",
-	"pytest-cov"
+	"pre-commit~=3.0.4",
+	"pytest~=8.1.1",
+	"pytest-cov~=5.0.0",
 ]
 test = [
-	"pytest",
-	"pytest-cov",
+	"pytest~=8.1.1",
+	"pytest-cov~=5.0.0",
 ]
+
+[project.urls]
+repository = "https://github.com/CHANGE-EPFL/frame-project-cli"
 
 [build-system]
-requires = ["poetry-core", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["setuptools>=76.0.0", "setuptools_scm[toml]>=8.2.0"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry-dynamic-versioning]
-enable = true
-vcs = "git"
-style = "semver"
+[tool.setuptools]
+packages = ["frame_cli"]
 
-[tool.poetry-dynamic-versioning.substitution]
-files = [
-	"frame_cli/__init__.py",
-]
+[tool.setuptools_scm]
 
-[tool.poetry.scripts]
+[project.scripts]
 frame-cli = "frame_cli.main:app"
 
 [tool.pytest.ini_options]
@@ -65,4 +58,4 @@ line_length = 120
 profile = "black"
 
 [tool.codespell]
-skip = 'poetry.lock'
+skip = 'uv.lock'

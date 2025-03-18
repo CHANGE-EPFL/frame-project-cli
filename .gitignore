@@ -1,5 +1,6 @@
 .coverage
 coverage.xml
+*.egg-info
 dist
 .env
 lcov.info

@@ -26,10 +26,6 @@ repos:
       - id: codespell
         additional_dependencies:
           - tomli
-        exclude: >
-          (?x)^(
-            .*poetry\.lock
-          )$
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: v3.6.0
     hooks:
