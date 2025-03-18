@@ -163,7 +163,7 @@ def _download_files(record: dict, destination: str) -> None:
                 path = os.path.join(destination, key)
 
                 # Download file
-                logger.debug(f"({i+1}/{n_files}) Downloading {key}...")
+                logger.debug(f"({i + 1}/{n_files}) Downloading {key}...")
                 task_id = progress.add_task("({i+1}/{n_files}) {key}", filename=key, start=False)
                 pool.submit(_download_file, url, key, path, progress, task_id)
 
