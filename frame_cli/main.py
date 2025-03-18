@@ -5,12 +5,13 @@ from json import JSONDecodeError
 import requests
 import typer
 
-from . import listing, pull, show
+from . import __version__, listing, pull, show
 from .config import API_URL
 
 app = typer.Typer(
-    help="Frame tool to download hybrid models and setup environments.",
+    help="Frame CLI tool to download hybrid models and setup environments.",
     no_args_is_help=True,
+    context_settings={"help_option_names": ["-h", "--help"]},
 )
 
 show_app = typer.Typer(
@@ -30,6 +31,25 @@ pull_app = typer.Typer(
     no_args_is_help=True,
 )
 app.add_typer(pull_app, name="pull")
+
+
+def version_callback(value: bool) -> None:
+    if value:
+        print(f"Frame CLI {__version__}")
+        raise typer.Exit()
+
+
+@app.callback()
+def main(
+    version: bool = typer.Option(
+        False,
+        "--version",
+        "-v",
+        callback=version_callback,
+        help="Show the current version of Frame CLI.",
+    ),
+) -> None:
+    pass
 
 
 @app.command()
@@ -52,6 +72,12 @@ def check() -> None:
         return
 
     print("API is healthy.")
+
+
+@app.command()
+def version() -> None:
+    """Show the current version of Frame CLI."""
+    version_callback(True)
 
 
 @show_app.command("hybrid-model")
