@@ -1,12 +1,8 @@
 """CLI entry point."""
 
-from json import JSONDecodeError
-
-import requests
 import typer
 
-from . import __version__, listing, pull, show
-from .config import API_URL
+from . import __version__, check as check_module, listing, pull, show
 
 app = typer.Typer(
     help="Frame CLI tool to download hybrid models and setup environments.",
@@ -54,24 +50,8 @@ def main(
 
 @app.command()
 def check() -> None:
-    """Check the API access."""
-    url = f"{API_URL}/healthz"
-    response = requests.get(url)
-    if response.status_code != 200:
-        print("API is not accessible. Check the API URL.")
-        return
-
-    try:
-        data = response.json()
-    except JSONDecodeError:
-        print("Error decoding JSON. Check the API URL.")
-        return
-
-    if "status" not in data or data["status"] != "OK":
-        print("API is not healthy.")
-        return
-
-    print("API is healthy.")
+    """Check installation and API access."""
+    check_module.check()
 
 
 @app.command()
