@@ -1,13 +1,12 @@
 """Module for `frame-cli pull` commands."""
 
-import os
 from json import JSONDecodeError
 
 import requests
 
 from .config import API_URL
 from .downloaders.git import GitDownloader
-from .info import get_global_info, set_global_info, set_local_model_info
+from .info import add_local_model_info
 
 
 def retrieve_model_url(name: str) -> str | None:
@@ -40,18 +39,10 @@ def pull_model(name: str, destination: str | None) -> None:
         print("Error retrieving the model URL.")
         return
 
-    # TODO: Detect whidh downloader to use
+    # TODO: Detect which downloader to use
     downloader = GitDownloader()
     destination = downloader.download(url, destination)
-
-    set_local_model_info(destination, {"name": name})
-
-    global_info = get_global_info()
-    if "local_models" not in global_info:
-        global_info["local_models"] = {}
-
-    global_info["local_models"][os.path.abspath(destination)] = {"name": name}
-    set_global_info(global_info)
+    add_local_model_info(name, destination)
 
 
 def pull_component(name: str, model: str) -> None:

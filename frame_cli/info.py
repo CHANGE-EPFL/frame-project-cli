@@ -60,6 +60,19 @@ def set_global_info(info: dict) -> None:
         yaml.dump(info, file)
 
 
+def get_local_models_info() -> dict:
+    """Return the local hybrid models info dictionary."""
+
+    global_info = get_global_info()
+
+    for path in list(global_info["local_models"].keys()):
+        if not os.path.exists(path):
+            del global_info["local_models"][path]
+
+    set_global_info(global_info)
+    return global_info["local_models"]
+
+
 def set_local_model_info(model_path: str, info: dict) -> None:
     """Set the local hybrid model info dictionary."""
 
@@ -71,3 +84,16 @@ def set_local_model_info(model_path: str, info: dict) -> None:
 
     with open(info_path, "w") as file:
         yaml.dump(info, file)
+
+
+def add_local_model_info(name: str, path: str) -> None:
+    """Add a local hybrid model info to global dictionary and local model dictionary."""
+
+    set_local_model_info(path, {"name": name})
+
+    global_info = get_global_info()
+    if "local_models" not in global_info:
+        global_info["local_models"] = {}
+
+    global_info["local_models"][os.path.abspath(path)] = {"name": name}
+    set_global_info(global_info)
