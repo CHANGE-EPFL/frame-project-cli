@@ -1,4 +1,4 @@
-# frame-cli
+# Frame CLI
 
 _Command line interface for managing Frame hybrid models_
 
@@ -7,26 +7,24 @@ _Command line interface for managing Frame hybrid models_
 
 ## Requirements
 
-- Python 3.10 or higher
+- [uv](https://docs.astral.sh/uv/) Python package and project manager
 
 
 ## Installation
 
-We recommend you install the FRAME CLI inside a Python virtual environment, for example using [uv](https://github.com/astral-sh/uv) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html). To install, run the following command in your terminal:
+Frame CLI relies on [uv](https://docs.astral.sh/uv/) to manage Python virtual environments. You need to install it first if you don't already have it:
 ```bash
-pip install git+https://github.com/CHANGE-EPFL/frame-project-cli.git
+wget -qO- https://astral.sh/uv/install.sh | sh
 ```
+Then, run the following command to install Frame CLI:
+```bash
+uv tool install git+https://github.com/CHANGE-EPFL/frame-project-cli.git
+```
+
 
 ## Usage
 
-Create a `.env` file in the root of your project with the following content (or export environment variables in your shell):
-```bash
-FRAME_CLI_LOGGING_LEVEL=INFO
-```
-
-
-Then run:
-
+To see the list of available commands, run:
 ```bash
 frame-cli --help
 ```
@@ -40,6 +38,10 @@ cd frame-cli
 make install
 ```
 
+Create a `.env` file in the root of your project with the following content (or export environment variables in your shell):
+```bash
+FRAME_CLI_LOGGING_LEVEL=INFO
+```
 
 # ✅ Running tests
 
