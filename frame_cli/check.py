@@ -1,3 +1,5 @@
+"""Check installation and API access."""
+
 from json import JSONDecodeError
 import shutil
 

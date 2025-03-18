@@ -2,7 +2,7 @@
 
 import typer
 
-from . import __version__, check as check_module, listing, pull, show
+from . import __version__, check as check_module, listing, pull, show, update as update_module
 
 app = typer.Typer(
     help="Frame CLI tool to download hybrid models and setup environments.",
@@ -58,6 +58,12 @@ def check() -> None:
 def version() -> None:
     """Show the current version of Frame CLI."""
     version_callback(True)
+
+
+@app.command()
+def update() -> None:
+    """Update Frame CLI, assuming it has been installed with `uv tool install`."""
+    update_module.update()
 
 
 @show_app.command("hybrid-model")
