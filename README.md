@@ -1,6 +1,6 @@
 # Frame CLI
 
-_Command line interface for managing Frame hybrid models_
+_Command line interface for managing [Frame hybrid models](https://frame-dev.epfl.ch/)_
 
 
 # 🐇 Quick start
