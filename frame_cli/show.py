@@ -7,6 +7,7 @@ from rich.console import Console
 from rich.panel import Panel
 
 from .config import API_URL
+from .utils import get_unit_id_and_version
 
 
 def print_keywords(console: Console, keywords: list[str], style: str) -> None:
@@ -35,7 +36,10 @@ def print_pull_command(console: Console, command: str) -> None:
 
 def show_remote_model(name: str) -> None:
     """Show information about a remote hybrid model."""
-    url = f"{API_URL}/hybrid_models/{name}"
+    id, version = get_unit_id_and_version(name)
+    url = f"{API_URL}/hybrid_models/{id}"
+    if version is not None:
+        url += f"?model_version={version}"
     response = requests.get(url)
 
     if response.status_code == 404:
@@ -82,8 +86,12 @@ def show_local_model(name: str) -> None:
 
 def show_remote_component(name: str) -> None:
     """Show information about a remote component."""
-    url_physics_based = f"{API_URL}/components/physics_based/{name}"
-    url_machine_learning = f"{API_URL}/components/machine_learning/{name}"
+    id, version = get_unit_id_and_version(name)
+    url_physics_based = f"{API_URL}/components/physics_based/{id}"
+    url_machine_learning = f"{API_URL}/components/machine_learning/{id}"
+    if version is not None:
+        url_physics_based += f"?component_version={version}"
+        url_machine_learning += f"?component_version={version}"
 
     response = requests.get(url_physics_based)
     component_type = "Physics-based"
