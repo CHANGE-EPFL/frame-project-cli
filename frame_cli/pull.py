@@ -12,12 +12,16 @@ from rich.panel import Panel
 from .config import API_URL
 from .downloaders.git import GitDownloader
 from .info import add_local_model_info
+from .utils import get_unit_id_and_version
 
 
 def retrieve_model_info(name: str) -> dict[str, Any] | None:
     """Retrieve online info of a hybrid model."""
 
-    url = f"{API_URL}/hybrid_models/{name}"
+    id, version = get_unit_id_and_version(name)
+    url = f"{API_URL}/hybrid_models/{id}"
+    if version is not None:
+        url += f"?model_version={version}"
     response = requests.get(url)
 
     if response.status_code == 404:
