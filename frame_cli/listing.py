@@ -2,6 +2,7 @@
 
 from enum import Enum
 from json import JSONDecodeError
+import os
 
 import requests
 from rich.console import Console
@@ -56,7 +57,7 @@ def list_local_models() -> None:
     table.add_column("Name")
     table.add_column("Path")
     for path, info in local_models_info.items():
-        table.add_row(info["name"], path)
+        table.add_row(info["name"], os.path.relpath(path))
 
     console = Console()
     console.print("")
