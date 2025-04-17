@@ -1,4 +1,4 @@
-"""Module for `frame-cli list` commands."""
+"""Module for `frame list` commands."""
 
 from enum import Enum
 from json import JSONDecodeError

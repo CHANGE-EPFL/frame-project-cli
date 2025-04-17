@@ -1,4 +1,4 @@
-"""Module for `frame-cli pull` commands."""
+"""Module for `frame pull` commands."""
 
 from json import JSONDecodeError
 from typing import Any
