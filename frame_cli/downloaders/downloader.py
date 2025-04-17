@@ -1,7 +1,6 @@
 """Module containing the Downloader abstract base class."""
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
 
 class Downloader(ABC):
@@ -12,7 +11,7 @@ class Downloader(ABC):
         self,
         url: str,
         *args,
-        destination: Optional[str] = None,
+        destination: str | None = None,
         **kwargs,
     ) -> str:
         """Download the content at the given URL.
