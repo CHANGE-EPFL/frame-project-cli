@@ -69,37 +69,37 @@ def update() -> None:
 @show_app.command("model")
 def show_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
-    remote: bool = typer.Option(False, help="Show remote hybrid model info."),
+    local: bool = typer.Option(False, help="Show locally installed hybrid model info."),
 ) -> None:
     """Show information about a hybrid model."""
-    if remote:
-        show.show_remote_model(name)
-    else:
+    if local:
         show.show_local_model(name)
+    else:
+        show.show_remote_model(name)
 
 
 @show_app.command("component")
 def show_component(
     name: str = typer.Argument(..., help="Component name."),
-    hybrid_model: str | None = typer.Argument(None, help="Associated local hybrid model name."),
-    remote: bool = typer.Option(False, help="Show remote component info."),
+    hybrid_model: str | None = typer.Argument(None, help="Associated locally installed hybrid model name."),
+    local: bool = typer.Option(False, help="Show locally installed component info."),
 ) -> None:
     """Show information about a component."""
-    if remote:
-        if hybrid_model:  # show error
-            print("Remote components are not associated with a local hybrid model. Remove the HYBRID_MODEL argument.")
-            return
-        show.show_remote_component(name)
-    else:
+    if local:
         if not hybrid_model:
             print("Local components are associated with a local hybrid model. Add the HYBRID_MODEL argument.")
             return
         show.show_local_component(name, hybrid_model)
+    else:
+        if hybrid_model:  # show error
+            print("Remote components are not associated with a local hybrid model. Remove the HYBRID_MODEL argument.")
+            return
+        show.show_remote_component(name)
 
 
 @list_app.command("models")
 def list_models(
-    only_local: bool = typer.Option(False, help="List only installed hybrid models."),
+    only_local: bool = typer.Option(False, help="List only locally installed hybrid models."),
     only_remote: bool = typer.Option(False, help="List only remote hybrid models."),
 ) -> None:
     """List installed and remote hybrid models."""
@@ -116,7 +116,7 @@ def list_models(
 
 @list_app.command("components")
 def list_components(
-    only_local: bool = typer.Option(False, help="List only installed hybrid models."),
+    only_local: bool = typer.Option(False, help="List only locally installed hybrid models."),
     only_remote: bool = typer.Option(False, help="List only remote hybrid models."),
     type: listing.ComponentType | None = typer.Option(None, help="Filter by component type."),
 ) -> None:
@@ -144,7 +144,7 @@ def pull_model(
 @pull_app.command("component")
 def pull_component(
     name: str = typer.Argument(..., help="Component name."),
-    hybrid_model: str = typer.Argument(..., help="Associated local hybrid model name."),
+    hybrid_model: str = typer.Argument(..., help="Associated locally installed hybrid model name."),
 ) -> None:
     """Download a component."""
     pull.pull_component(name, hybrid_model)
