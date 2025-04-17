@@ -1,7 +1,5 @@
 """Module containing the GitDownloader class."""
 
-from typing import Optional
-
 from git import Repo
 from rich.status import Status
 
@@ -15,8 +13,8 @@ class GitDownloader(Downloader):
     def download(
         self,
         url: str,
-        destination: Optional[str] = None,
-        branch: Optional[str] = None,
+        destination: str | None = None,
+        branch: str | None = None,
     ) -> str:
         """Download the content at the given URL (https or git protocol).
 
