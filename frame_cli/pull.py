@@ -1,16 +1,13 @@
 """Module for `frame-cli pull` commands."""
 
 from json import JSONDecodeError
-import os
-import subprocess
 from typing import Any
 
 import requests
-from rich.console import Console
-from rich.panel import Panel
 
 from .config import API_URL
 from .downloaders.git import GitDownloader
+from .environment_managers.python_requirements import PythonRequirementsEnvironmentManager
 from .info import add_local_model_info
 from .utils import get_unit_id_and_version
 
@@ -41,19 +38,14 @@ def retrieve_model_info(name: str) -> dict[str, Any] | None:
     return info
 
 
-# TODO: Create a class for computational environments, with setup method
-def setup_environment(environment: dict[str, Any]) -> None:
-    console = Console()
-
+def setup_environment(destination: str, environment: dict[str, Any]) -> None:
+    # TODO: Automate choice of environment manager subclass from environment["type"]
     if environment["type"] == "python_requirements":
-        console.print("Setting up Python environment...")
-        subprocess.run(["uv", "venv"])
-        subprocess.run(["uv", "pip", "install", "pip"])
-        for requirement_path in environment["file_paths"]:
-            subprocess.run(["uv", "pip", "install", "-r", requirement_path])
-
-        console.print("Python environment setup complete. Activate it from the model's root directory with")
-        console.print(Panel("source .venv/bin/activate"))
+        environment_manager = PythonRequirementsEnvironmentManager()
+        environment_manager.setup(
+            destination,
+            environment["file_paths"],
+        )
 
 
 def pull_model(name: str, destination: str | None) -> None:
@@ -75,10 +67,9 @@ def pull_model(name: str, destination: str | None) -> None:
 
     computational_environment = info.get("computational_environment", [])
     if computational_environment:
-        os.chdir(destination)
         print("Setting up computational environment...")
         for environment in computational_environment:
-            setup_environment(environment)
+            setup_environment(destination, environment)
 
 
 def pull_component(name: str, model: str) -> None:
