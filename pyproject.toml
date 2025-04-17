@@ -42,7 +42,7 @@ packages = ["frame_cli"]
 [tool.setuptools_scm]
 
 [project.scripts]
-frame-cli = "frame_cli.main:app"
+frame = "frame_cli.main:app"
 
 [tool.pytest.ini_options]
 addopts = "--cov=frame_cli --cov-report term-missing --cov-report xml --cov-report lcov:lcov.info"

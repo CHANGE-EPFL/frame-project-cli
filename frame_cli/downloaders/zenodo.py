@@ -5,7 +5,6 @@ import signal
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from threading import Event
-from typing import Optional
 
 import requests
 from rich.progress import (
@@ -33,7 +32,7 @@ class ZenodoDownloader(Downloader):
     def download(
         self,
         url: str,
-        destination: Optional[str] = None,
+        destination: str | None = None,
     ) -> str:
         f"""Download the Zenodo dataset with the given DOI.
 

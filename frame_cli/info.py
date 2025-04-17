@@ -65,6 +65,9 @@ def get_local_models_info() -> dict:
 
     global_info = get_global_info()
 
+    if "local_models" not in global_info:
+        global_info["local_models"] = {}
+
     for path in list(global_info["local_models"].keys()):
         if not os.path.exists(path):
             del global_info["local_models"][path]
