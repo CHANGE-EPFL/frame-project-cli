@@ -1,5 +1,5 @@
 install:
-	pip install -e .[dev]
+	pip install -e ".[dev]"
 	pre-commit install -t pre-commit -t commit-msg
 
 lint:
