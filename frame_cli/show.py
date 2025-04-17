@@ -1,4 +1,4 @@
-"""Module for `frame-cli show` commands."""
+"""Module for `frame show` commands."""
 
 from json import JSONDecodeError
 
@@ -75,7 +75,7 @@ def show_remote_model(name: str) -> None:
         console.print(f"📜 License: {info['license']}")
 
     console.print("")
-    print_pull_command(console, f"frame-cli pull hybrid-model {name}")
+    print_pull_command(console, f"frame pull model {name}")
 
 
 def show_local_model(name: str) -> None:
@@ -135,7 +135,7 @@ def show_remote_component(name: str) -> None:
         console.print(f"📜 License: {info['license']}")
 
     console.print("")
-    print_pull_command(console, f"frame-cli pull component {name}")
+    print_pull_command(console, f"frame pull component {name}")
 
 
 def show_local_component(name: str, hybrid_model: str) -> None:

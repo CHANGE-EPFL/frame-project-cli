@@ -66,7 +66,7 @@ def update() -> None:
     update_module.update()
 
 
-@show_app.command("hybrid-model")
+@show_app.command("model")
 def show_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
     remote: bool = typer.Option(False, help="Show remote hybrid model info."),
@@ -97,7 +97,7 @@ def show_component(
         show.show_local_component(name, hybrid_model)
 
 
-@list_app.command("hybrid-models")
+@list_app.command("models")
 def list_models(
     only_local: bool = typer.Option(False, help="List only installed hybrid models."),
     only_remote: bool = typer.Option(False, help="List only remote hybrid models."),
@@ -132,7 +132,7 @@ def list_components(
         listing.list_local_components(type)
 
 
-@pull_app.command("hybrid-model")
+@pull_app.command("model")
 def pull_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
     destination: str | None = typer.Argument(None, help="Destination folder."),
