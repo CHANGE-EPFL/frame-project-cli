@@ -71,6 +71,11 @@ def pull_model(name: str, destination: str | None) -> None:
         for environment in computational_environment:
             setup_environment(destination, environment)
 
+    if "documentation" in info and info["documentation"]:
+        print("For further information about the hybrid model's usage, please refer to its documentation:")
+        for link in info["documentation"]:
+            print(link)
+
 
 def pull_component(name: str, model: str) -> None:
     """Download a component."""
