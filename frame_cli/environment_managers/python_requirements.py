@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+import sys
 
 from rich.console import Console
 from rich.panel import Panel
@@ -31,5 +32,10 @@ class PythonRequirementsEnvironmentManager(EnvironmentManager):
 
         console.print("Python environment setup complete. Activate it from the model's root directory with")
         activation_message = f"cd {destination}\n"
-        activation_message += "source .venv/bin/activate"
+
+        if sys.platform == "win32":
+            activation_message += ".venv\\Scripts\\activate"
+        else:
+            activation_message += "source .venv/bin/activate"
+
         console.print(Panel(activation_message))
