@@ -45,8 +45,6 @@ def list_remote_models() -> None:
 
 def list_local_models() -> None:
     """List installed hybrid models."""
-    print("Run with `--remote` to list remote hybrid models.")
-
     local_models_info = get_local_models_info()
     if not local_models_info:
         print("No local hybrid models found.")
@@ -107,4 +105,3 @@ def list_local_components(type: ComponentType | None) -> None:
     """List installed components."""
     # TODO: implement
     print("Feature not implemented.")
-    print("Run with `--remote` to list remote components.")

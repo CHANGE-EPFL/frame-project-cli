@@ -99,25 +99,36 @@ def show_component(
 
 @list_app.command("hybrid-models")
 def list_models(
-    remote: bool = typer.Option(False, help="List remote hybrid models."),
+    only_local: bool = typer.Option(False, help="List only installed hybrid models."),
+    only_remote: bool = typer.Option(False, help="List only remote hybrid models."),
 ) -> None:
     """List installed and remote hybrid models."""
-    if remote:
+    if only_local and only_remote:
+        print("--only-local and --only-remote options are mutually exclusive. Choose one.")
+        return
+
+    if not only_local:
         listing.list_remote_models()
-    else:
+
+    if not only_remote:
         listing.list_local_models()
 
 
 @list_app.command("components")
 def list_components(
-    remote: bool = typer.Option(False, help="List remote components."),
+    only_local: bool = typer.Option(False, help="List only installed hybrid models."),
+    only_remote: bool = typer.Option(False, help="List only remote hybrid models."),
     type: listing.ComponentType | None = typer.Option(None, help="Filter by component type."),
 ) -> None:
     """List installed and remote components."""
-    print("Listing components.")
-    if remote:
+    if only_local and only_remote:
+        print("--only-local and --only-remote options are mutually exclusive. Choose one.")
+        return
+
+    if not only_local:
         listing.list_remote_components(type)
-    else:
+
+    if not only_remote:
         listing.list_local_components(type)
 
 
