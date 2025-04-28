@@ -18,7 +18,12 @@ def check_api() -> None:
     """Check API access."""
 
     url = f"{API_URL}/healthz"
-    response = requests.get(url)
+    try:
+        response = requests.get(url)
+    except Exception:
+        print("API is not accessible. Check the API URL.")
+        return
+
     if response.status_code != 200:
         print("API is not accessible. Check the API URL.")
         return
@@ -41,7 +46,7 @@ def check_uv() -> None:
 
     if shutil.which("uv") is None:
         print(
-            "uv is not installed. Please install it to use Frame CLI:\nhttps://docs.astral.sh/uv/guides/install-python/"
+            "uv is not installed. Please install it to use Frame CLI:\nhttps://docs.astral.sh/uv/getting-started/installation/"
         )
     else:
         print("uv is installed.")
