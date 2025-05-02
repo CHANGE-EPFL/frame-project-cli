@@ -10,17 +10,17 @@ app = typer.Typer(
     context_settings={"help_option_names": ["-h", "--help"]},
 )
 
-show_app = typer.Typer(
-    help="Show information about a hybrid model or component.",
-    no_args_is_help=True,
-)
-app.add_typer(show_app, name="show")
-
 list_app = typer.Typer(
     help="List hybrid models or components.",
     no_args_is_help=True,
 )
 app.add_typer(list_app, name="list")
+
+show_app = typer.Typer(
+    help="Show information about a hybrid model or component.",
+    no_args_is_help=True,
+)
+app.add_typer(show_app, name="show")
 
 pull_app = typer.Typer(
     help="Download hybrid models or components and setup environment.",
@@ -64,6 +64,18 @@ def version() -> None:
 def update() -> None:
     """Update Frame CLI, assuming it has been installed with `uv tool install`."""
     update_module.update()
+
+
+@app.command()
+def init() -> None:
+    """Create a new Frame metadata file in the current project."""
+    print("Feature not implemented.")
+
+
+@app.command()
+def push() -> None:
+    """Submit a pull request to the Frame project with new/updated metadata."""
+    print("Feature not implemented.")
 
 
 @show_app.command("model")
