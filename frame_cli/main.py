@@ -2,7 +2,7 @@
 
 import typer
 
-from . import __version__, check as check_module, listing, pull, show, update as update_module
+from . import __version__, check as check_module, init as init_module, listing, pull, show, update as update_module
 
 app = typer.Typer(
     help="Frame CLI tool to download hybrid models and setup environments.",
@@ -68,8 +68,8 @@ def update() -> None:
 
 @app.command()
 def init() -> None:
-    """Create a new Frame metadata file in the current project."""
-    print("Feature not implemented.")
+    """Create a new Frame metadata file at the root of the current project."""
+    init_module.init()
 
 
 @app.command()
