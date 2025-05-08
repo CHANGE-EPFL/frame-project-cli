@@ -1,7 +1,8 @@
-"""Module for `frame-cli list` commands."""
+"""Module for `frame list` commands."""
 
 from enum import Enum
 from json import JSONDecodeError
+import os
 
 import requests
 from rich.console import Console
@@ -44,8 +45,6 @@ def list_remote_models() -> None:
 
 def list_local_models() -> None:
     """List installed hybrid models."""
-    print("Run with `--remote` to list remote hybrid models.")
-
     local_models_info = get_local_models_info()
     if not local_models_info:
         print("No local hybrid models found.")
@@ -56,7 +55,7 @@ def list_local_models() -> None:
     table.add_column("Name")
     table.add_column("Path")
     for path, info in local_models_info.items():
-        table.add_row(info["name"], path)
+        table.add_row(info["name"], os.path.relpath(path))
 
     console = Console()
     console.print("")
@@ -106,4 +105,3 @@ def list_local_components(type: ComponentType | None) -> None:
     """List installed components."""
     # TODO: implement
     print("Feature not implemented.")
-    print("Run with `--remote` to list remote components.")

@@ -2,6 +2,8 @@
 
 _Command line interface for managing [Frame hybrid models](https://frame-dev.epfl.ch/)_
 
+[![PyPI version](https://badge.fury.io/py/frame-cli.svg)](https://badge.fury.io/py/frame-cli)
+
 
 # 🐇 Quick start
 
@@ -12,13 +14,11 @@ _Command line interface for managing [Frame hybrid models](https://frame-dev.epf
 
 ## Installation
 
-Frame CLI relies on [uv](https://docs.astral.sh/uv/) to manage Python virtual environments. You need to install it first if you don't already have it:
-```bash
-wget -qO- https://astral.sh/uv/install.sh | sh
-```
+Frame CLI relies on [uv](https://docs.astral.sh/uv/) to manage Python virtual environments. You need to install it first if you don't already have it. Refer to the official [uv documentation](https://docs.astral.sh/uv/getting-started/installation/).
+
 Then, run the following command to install Frame CLI:
 ```bash
-uv tool install git+https://github.com/CHANGE-EPFL/frame-project-cli.git
+uv tool install frame-cli
 ```
 
 
@@ -26,12 +26,19 @@ uv tool install git+https://github.com/CHANGE-EPFL/frame-project-cli.git
 
 To see the list of available commands, run:
 ```bash
-frame-cli --help
+frame --help
+```
+Hybrid model and component pages show which command must be run to download and setup specific units.
+
+You may want to install autocompletion for easier usage. To do so, run:
+```bash
+frame --install-completion
 ```
 
 
 # 💾 Installation for development
 
+To install Frame CLI for development in your current Python environment, you can use the following command. Feel free to use a virtual environment if you want to keep your system clean.
 ```bash
 git clone https://github.com/CHANGE-EPFL/frame-project-cli.git
 cd frame-cli

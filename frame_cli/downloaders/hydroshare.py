@@ -3,7 +3,6 @@
 import os
 import tempfile
 import zipfile
-from typing import Optional
 
 import requests
 from rich.progress import BarColumn, DownloadColumn, Progress, TextColumn, TimeRemainingColumn, TransferSpeedColumn
@@ -19,7 +18,7 @@ class HydroshareDownloader(Downloader):
     def download(
         self,
         url: str,
-        destination: Optional[str] = None,
+        destination: str | None = None,
     ) -> str:
         """Download the content at the given URL.
 
