@@ -12,6 +12,7 @@ def check() -> None:
     """Check installation and API access."""
     check_api()
     check_uv()
+    check_git()
 
 
 def check_api() -> None:
@@ -50,3 +51,12 @@ def check_uv() -> None:
         )
     else:
         print("uv is installed.")
+
+
+def check_git() -> None:
+    """Check that git is installed."""
+
+    if shutil.which("git") is None:
+        print("git is not installed.")
+    else:
+        print("git is installed.")
