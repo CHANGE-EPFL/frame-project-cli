@@ -2,7 +2,16 @@
 
 import typer
 
-from . import __version__, check as check_module, init as init_module, listing, pull, show, update as update_module
+from . import (
+    __version__,
+    check as check_module,
+    init as init_module,
+    listing,
+    pull,
+    push as push_module,
+    show,
+    update as update_module,
+)
 
 app = typer.Typer(
     help="Frame CLI tool to download hybrid models and setup environments.",
@@ -73,9 +82,17 @@ def init() -> None:
 
 
 @app.command()
-def push() -> None:
+def validate() -> None:
+    """Validate new/updated Frame metadata file for the current project."""
+    push_module.validate()
+
+
+@app.command()
+def push(
+    use_new_token: bool = typer.Option(False, help="Forget the saved GitHub token and ask for a new one."),
+) -> None:
     """Submit a pull request to the Frame project with new/updated metadata."""
-    print("Feature not implemented.")
+    push_module.push(use_new_token)
 
 
 @show_app.command("model")

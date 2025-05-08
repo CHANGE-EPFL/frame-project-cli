@@ -10,6 +10,7 @@ _Command line interface for managing [Frame hybrid models](https://frame-dev.epf
 ## Requirements
 
 - [uv](https://docs.astral.sh/uv/) Python package and project manager
+- [git](https://git-scm.com/) version control system
 
 
 ## Installation

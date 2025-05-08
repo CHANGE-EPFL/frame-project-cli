@@ -76,6 +76,19 @@ def get_local_models_info() -> dict:
     return global_info["local_models"]
 
 
+def get_local_model_info() -> dict:
+    """Return the local hybrid model info dictionary."""
+
+    model_frame_path = get_closest_info_path()
+    if model_frame_path is None:
+        return {}
+
+    info_path = os.path.join(model_frame_path, INFO_FILE_NAME)
+
+    with open(info_path, "r") as file:
+        return yaml.safe_load(file) or {}
+
+
 def set_local_model_info(model_path: str, info: dict) -> None:
     """Set the local hybrid model info dictionary."""
 
@@ -100,3 +113,17 @@ def add_local_model_info(name: str, path: str) -> None:
 
     global_info["local_models"][os.path.abspath(path)] = {"name": name}
     set_global_info(global_info)
+
+
+def get_github_token(use_new_token: bool = False) -> str:
+    """Return the GitHub token from the global info dictionary."""
+
+    global_info = get_global_info()
+
+    if "github_token" not in global_info or use_new_token:
+        print("Create a GitHub token with `repo` scope: https://github.com/settings/tokens/new")
+        github_token = input("GitHub token: ")
+        global_info["github_token"] = github_token
+        set_global_info(global_info)
+
+    return global_info["github_token"]

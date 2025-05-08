@@ -15,3 +15,7 @@ FRAME_METADATA_TEMPLATE_URL = (
     "https://raw.githubusercontent.com/CHANGE-EPFL/frame-project/"
     "refs/heads/main/backend/api/metadata_files/template.yaml"
 )
+FRAME_REPO_OWNER = "CHANGE-EPFL"
+FRAME_REPO_NAME = "frame-project"
+FRAME_REPO = f"{FRAME_REPO_OWNER}/{FRAME_REPO_NAME}"
+EXTERNAL_REFERENCES_PATH = os.path.join("backend", "api", "metadata_files", "external_references.yaml")
