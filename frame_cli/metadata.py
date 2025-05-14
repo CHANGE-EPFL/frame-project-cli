@@ -4,6 +4,7 @@ import os
 
 from git import Repo, InvalidGitRepositoryError
 import requests
+import yaml
 
 from .config import FRAME_METADATA_FILE_NAME, FRAME_METADATA_TEMPLATE_URL
 
@@ -18,6 +19,10 @@ class MetadataFileAlreadyExistsError(Exception):
 
 class MetadataTemplateFetchError(Exception):
     """Error fetching the metadata template."""
+
+
+class InvalidMetadataFileError(yaml.YAMLError):
+    """Invalid metadata file."""
 
 
 def get_metadata_file_path() -> str:
@@ -55,3 +60,41 @@ def create_metadata_file() -> None:
 
     with open(metadata_file_path, "w") as f:
         f.write(response.text)
+
+
+def get_metadata() -> dict:
+    """Return the Frame metadata dictionary from the metadata file.
+
+    Raises:
+        NotInsideGitRepositoryError: If the current directory is not a Git repository.
+        YAMLError: If the metadata file is not a valid YAML file.
+    """
+    metadata_file_path = get_metadata_file_path()
+
+    with open(metadata_file_path, "r") as f:
+        try:
+            return yaml.safe_load(f)
+        except yaml.YAMLError as e:
+            raise InvalidMetadataFileError(f"Invalid metadata file: {e}")
+
+
+def get_model_name() -> str:
+    """Return the model name (unique id) from the metadata file.
+
+    Raises:
+        NotInsideGitRepositoryError: If the current directory is not a Git repository.
+        YAMLError: If the metadata file is not a valid YAML file.
+    """
+    metadata = get_metadata()
+    return metadata["hybrid_model"]["id"]
+
+
+def get_model_url() -> str | None:
+    """Return the model URL from the metadata file.
+
+    Raises:
+        NotInsideGitRepositoryError: If the current directory is not a Git repository.
+        YAMLError: If the metadata file is not a valid YAML file.
+    """
+    metadata = get_metadata()
+    return metadata["hybrid_model"].get("url", None)

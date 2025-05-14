@@ -54,7 +54,6 @@ def get_model_name() -> str:
 
 
 def get_model_url() -> str:
-    return "https://gitlab.epfl.ch/sphamba/frame-test-project2"  # TODO: get from local model info
     model_info = get_local_model_info()
     if "url" not in model_info:
         raise ValueError("Model URL not found in local model info.")
@@ -63,7 +62,6 @@ def get_model_url() -> str:
 
 
 def generate_branch_name() -> str:
-    return "test_model_2"  # TODO: get from local model info
     model_name = get_model_name()
     return f"feat-{model_name}"
 
