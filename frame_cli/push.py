@@ -11,6 +11,7 @@ from github.Repository import Repository as GithubRepository
 from .config import FRAME_REPO, FRAME_REPO_NAME, EXTERNAL_REFERENCES_PATH
 from .info import get_github_token, get_home_info_path, get_local_model_info
 from .logging import logger
+from .metadata import validate as validate_metadata_file
 
 
 class ModelAlreadyTrackedError(Exception):
@@ -72,7 +73,7 @@ def add_model_to_local_frame_repo(local_repo: git.Repo):
     try:
         local_repo.git.checkout("-b", branch_name, "upstream/dev")  # TODO: set to upstream/main
     except git.GitCommandError:
-        raise ModelAlreadyTrackedError("Feature branch already exists in local Frame repository.")
+        local_repo.git.checkout(branch_name)
 
     external_references_path = os.path.join(str(local_repo.working_tree_dir), EXTERNAL_REFERENCES_PATH)
     with open(external_references_path, "r") as file:
@@ -111,14 +112,18 @@ def create_pull_request(github_client: github.Github, github_user: Authenticated
     print(f"Pull request created: {pull_request.html_url}")
 
 
-def validate():
-    """Validate new/updated Frame metadata file for the current project."""
-    # TODO: implement
-    print("Feature not implemented.")
+def validate_integration() -> bool:
+    """Validate metadata file and absence of conflicts with other Frame models."""
+    # TODO: run pytest in cloned frame repo
+    return True
 
 
 def push(use_new_token: bool = False):
     """Submit a pull request to the Frame project with new/updated metadata."""
+
+    if not validate_metadata_file():
+        print("Metadata file does not follow schema.")
+        return
 
     github_client = github.Github(get_github_token(use_new_token))
     github_user = github_client.get_user()
@@ -131,12 +136,15 @@ def push(use_new_token: bool = False):
         return
 
     local_repo = get_local_frame_repo(github_client, github_user)
-    # try:
-    add_model_to_local_frame_repo(local_repo)
-    # except ModelAlreadyTrackedError:
-    # print("Model is already tracked by the Frame repository.")
-    # return
-    # TODO: add validation
+    try:
+        add_model_to_local_frame_repo(local_repo)
+    except ModelAlreadyTrackedError:
+        print("Model URL already tracked in external references.")
+        return
+
+    if not validate_integration():
+        print("Validation failed. Please check the metadata file and resolve any conflicts.")
+        return
 
     push_to_frame_fork(local_repo)
     create_pull_request(github_client, github_user)

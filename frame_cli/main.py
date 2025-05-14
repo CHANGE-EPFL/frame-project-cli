@@ -7,6 +7,7 @@ from . import (
     check as check_module,
     init as init_module,
     listing,
+    metadata,
     pull,
     push as push_module,
     show,
@@ -84,7 +85,10 @@ def init() -> None:
 @app.command()
 def validate() -> None:
     """Validate new/updated Frame metadata file for the current project."""
-    push_module.validate()
+    if metadata.validate():
+        print("Metadata file is valid.")
+    else:
+        print("Metadata file is not valid.")
 
 
 @app.command()
