@@ -5,6 +5,7 @@ import os
 import yaml
 
 from .config import FRAME_DIR_NAME, INFO_FILE_NAME
+from .metadata import get_model_name, get_model_url
 
 
 def get_home_info_path() -> str:
@@ -86,13 +87,39 @@ def get_local_model_info() -> dict:
     info_path = os.path.join(model_frame_path, INFO_FILE_NAME)
 
     with open(info_path, "r") as file:
-        return yaml.safe_load(file) or {}
+        model_info = yaml.safe_load(file)
+
+    updated_model_info = model_info.copy()
+
+    try:
+        model_name = get_model_name()
+        updated_model_info["name"] = model_name
+    except Exception:
+        pass
+
+    try:
+        model_url = get_model_url()
+        if model_url is not None:
+            updated_model_info["url"] = model_url
+    except Exception:
+        pass
+
+    if updated_model_info != model_info:
+        set_local_model_info(updated_model_info)
+
+    return updated_model_info
 
 
-def set_local_model_info(model_path: str, info: dict) -> None:
+def set_local_model_info(info: dict, model_path: str | None = None) -> None:
     """Set the local hybrid model info dictionary."""
 
-    model_frame_path = os.path.join(model_path, FRAME_DIR_NAME)
+    if model_path is None:
+        model_frame_path = get_closest_info_path()
+        if model_frame_path is None:
+            raise ValueError("Could not find local model.")
+    else:
+        model_frame_path = os.path.join(model_path, FRAME_DIR_NAME)
+
     info_path = os.path.join(model_frame_path, INFO_FILE_NAME)
 
     if not os.path.exists(model_frame_path):
@@ -102,16 +129,22 @@ def set_local_model_info(model_path: str, info: dict) -> None:
         yaml.dump(info, file)
 
 
-def add_local_model_info(name: str, path: str) -> None:
+def add_local_model_info(name: str, url: str, model_path: str | None = None) -> None:
     """Add a local hybrid model info to global dictionary and local model dictionary."""
 
-    set_local_model_info(path, {"name": name})
+    set_local_model_info(
+        {
+            "name": name,
+            "url": url,
+        },
+        model_path,
+    )
 
     global_info = get_global_info()
     if "local_models" not in global_info:
         global_info["local_models"] = {}
 
-    global_info["local_models"][os.path.abspath(path)] = {"name": name}
+    global_info["local_models"][os.path.abspath(model_path)] = {"name": name}
     set_global_info(global_info)
 
 

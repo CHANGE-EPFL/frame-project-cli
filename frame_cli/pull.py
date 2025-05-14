@@ -63,7 +63,7 @@ def pull_model(name: str, destination: str | None) -> None:
     # TODO: Detect which downloader to use
     downloader = GitDownloader()
     destination = downloader.download(url, destination)
-    add_local_model_info(name, destination)
+    add_local_model_info(name, url, destination)
 
     computational_environment = info.get("computational_environment", [])
     if computational_environment:
