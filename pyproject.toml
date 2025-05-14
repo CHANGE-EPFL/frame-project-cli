@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10,<3.13"
 
 dependencies = [
+	"frame-api @ git+https://github.com/CHANGE-EPFL/frame-project#subdirectory=backend",
 	"gitpython~=3.1.43",
 	"pygithub>=2.6.1",
 	"python-dotenv~=1.0.1",
@@ -56,3 +57,6 @@ line-length = 120
 
 [tool.codespell]
 skip = 'uv.lock'
+
+[tool.uv.sources]
+frame-api = { git = "https://github.com/CHANGE-EPFL/frame-project", subdirectory = "backend" }

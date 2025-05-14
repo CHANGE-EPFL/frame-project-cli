@@ -5,8 +5,10 @@ import os
 from git import Repo, InvalidGitRepositoryError
 import requests
 import yaml
+from api.models.metadata_file import MetadataFromFile
 
 from .config import FRAME_METADATA_FILE_NAME, FRAME_METADATA_TEMPLATE_URL
+from .logging import logger
 
 
 class NotInsideGitRepositoryError(Exception):
@@ -102,4 +104,17 @@ def get_model_url() -> str | None:
 
 def validate() -> bool:
     # TODO: use frame-project schemas to validate yaml
+    try:
+        metadata = get_metadata()
+
+    except InvalidMetadataFileError:
+        logger.info("Invalid yaml file.")
+        return False
+
+    try:
+        MetadataFromFile(**metadata)
+    except Exception as e:
+        logger.info(f"Invalid metadata file: {e}")
+        return False
+
     return True
