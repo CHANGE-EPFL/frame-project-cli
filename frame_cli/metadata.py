@@ -98,3 +98,8 @@ def get_model_url() -> str | None:
     """
     metadata = get_metadata()
     return metadata["hybrid_model"].get("url", None)
+
+
+def validate() -> bool:
+    # TODO: use frame-project schemas to validate yaml
+    return True
