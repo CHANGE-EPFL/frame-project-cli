@@ -5,7 +5,7 @@ import os
 import yaml
 
 from .config import FRAME_DIR_NAME, INFO_FILE_NAME
-from .metadata import get_model_name, get_model_url
+from .metadata import get_model_name, get_model_url, get_metadata_file_path
 
 
 def get_home_info_path() -> str:
@@ -82,7 +82,13 @@ def get_local_model_info() -> dict:
 
     model_frame_path = get_closest_info_path()
     if model_frame_path is None:
-        return {}
+        try:
+            metadata_file_path = get_metadata_file_path()
+        except Exception:
+            return {}
+        model_path = os.path.dirname(metadata_file_path)
+        model_frame_path = os.path.join(model_path, FRAME_DIR_NAME)
+        set_local_model_info({}, model_path)
 
     info_path = os.path.join(model_frame_path, INFO_FILE_NAME)
 
