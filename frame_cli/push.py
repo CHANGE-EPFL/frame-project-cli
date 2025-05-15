@@ -1,6 +1,7 @@
 """Module for `frame push` command."""
 
 import os
+import subprocess
 import yaml
 
 import git
@@ -70,10 +71,14 @@ def generate_branch_name() -> str:
 def add_model_to_local_frame_repo(local_repo: git.Repo):
     branch_name = generate_branch_name()
 
+    local_repo.git.checkout("main")
+
     try:
-        local_repo.git.checkout("-b", branch_name, "upstream/dev")  # TODO: set to upstream/main
+        local_repo.git.branch("-f", branch_name, "upstream/main")
     except git.GitCommandError:
-        local_repo.git.checkout(branch_name)
+        pass
+
+    local_repo.git.checkout(branch_name)
 
     external_references_path = os.path.join(str(local_repo.working_tree_dir), EXTERNAL_REFERENCES_PATH)
     with open(external_references_path, "r") as file:
@@ -94,7 +99,7 @@ def add_model_to_local_frame_repo(local_repo: git.Repo):
 
 def push_to_frame_fork(local_repo: git.Repo):
     logger.info("Pushing changes to Frame fork")
-    local_repo.git.push("origin", generate_branch_name())
+    local_repo.git.push("origin", generate_branch_name(), force_with_lease=True)
 
 
 def create_pull_request(github_client: github.Github, github_user: AuthenticatedUser):
@@ -102,19 +107,49 @@ def create_pull_request(github_client: github.Github, github_user: Authenticated
     upstream_repo = github_client.get_repo(FRAME_REPO)
 
     logger.info(f"Creating pull request from {github_user.login}:{branch_name} to {upstream_repo.full_name}:main")
-    pull_request = upstream_repo.create_pull(
-        title=f'feat(metadata): Add "{get_model_name()}" to external references',
-        body="",
-        head=f"{github_user.login}:{branch_name}",
-        base="main",
-    )
+    try:
+        pull_request = upstream_repo.create_pull(
+            title=f'feat(metadata): Add "{get_model_name()}" to external references',
+            body="",
+            head=f"{github_user.login}:{branch_name}",
+            base="main",
+        )
+    except github.GithubException as e:
+        for error in e.data["errors"]:
+            logger.error(error["message"])
+        print("Error creating pull request.")
+        return
 
     print(f"Pull request created: {pull_request.html_url}")
 
 
 def validate_integration() -> bool:
     """Validate metadata file and absence of conflicts with other Frame models."""
-    # TODO: run pytest in cloned frame repo
+    logger.info("Validating integration with Frame repository")
+
+    frame_api_path = os.path.join(get_home_info_path(), FRAME_REPO_NAME, "backend")
+
+    logger.info("Creating virtual environment using uv")
+    ret = subprocess.run("uv venv".split(), cwd=frame_api_path, capture_output=True)
+    if ret.returncode != 0:
+        print(
+            "Error creating virtual environment using uv. Please check that uv and a recent version of Python are installed."
+        )
+        return False
+
+    logger.info("Installing dependencies")
+    ret = subprocess.run("uv pip install -e .[test]".split(), cwd=frame_api_path, capture_output=True)
+    if ret.returncode != 0:
+        print("Error installing dependencies.")
+        return False
+
+    logger.info("Running integration tests")
+    ret = subprocess.run("uv run pytest --disable-warnings".split(), cwd=frame_api_path)
+    if ret.returncode != 0:
+        print("Integration tests failed.")
+        return False
+
+    logger.info("Integration tests passed")
     return True
 
 
