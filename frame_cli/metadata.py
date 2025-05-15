@@ -23,6 +23,10 @@ class MetadataTemplateFetchError(Exception):
     """Error fetching the metadata template."""
 
 
+class MetadataFileNotFoundError(Exception):
+    """Frame metadata file not found."""
+
+
 class InvalidMetadataFileError(yaml.YAMLError):
     """Invalid metadata file."""
 
@@ -73,6 +77,9 @@ def get_metadata() -> dict:
     """
     metadata_file_path = get_metadata_file_path()
 
+    if not os.path.exists(metadata_file_path):
+        raise MetadataFileNotFoundError
+
     with open(metadata_file_path, "r") as f:
         try:
             return yaml.safe_load(f)
@@ -106,6 +113,10 @@ def validate() -> bool:
     # TODO: use frame-project schemas to validate yaml
     try:
         metadata = get_metadata()
+
+    except MetadataFileNotFoundError:
+        logger.info("Metadata file not found. Please run `frame init` to create one.")
+        return False
 
     except InvalidMetadataFileError:
         logger.info("Invalid yaml file.")
