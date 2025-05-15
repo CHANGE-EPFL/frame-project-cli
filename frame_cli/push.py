@@ -15,6 +15,10 @@ from .logging import logger
 from .metadata import validate as validate_metadata_file
 
 
+class MissingModelURLError(Exception):
+    """Exception raised when the model URL is missing in the metadata file."""
+
+
 class ModelAlreadyTrackedError(Exception):
     """Exception raised when the model is already tracked by the Frame repository."""
 
@@ -59,6 +63,8 @@ def get_model_url() -> str:
     model_info = get_local_model_info()
     if "url" not in model_info:
         raise ValueError("Model URL not found in local model info.")
+    if not model_info["url"]:
+        raise MissingModelURLError
 
     return model_info["url"]
 
@@ -173,6 +179,9 @@ def push(use_new_token: bool = False):
     local_repo = get_local_frame_repo(github_client, github_user)
     try:
         add_model_to_local_frame_repo(local_repo)
+    except MissingModelURLError:
+        print("Model URL is empty. Please set the model URL to the remote repository URL in the metadata file.")
+        return
     except ModelAlreadyTrackedError:
         print("Model URL already tracked in external references.")
         return
