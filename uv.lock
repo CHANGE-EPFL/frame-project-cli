@@ -509,7 +509,7 @@ wheels = [
 [[package]]
 name = "frame-api"
 version = "0.1.0"
-source = { git = "https://github.com/CHANGE-EPFL/frame-project?subdirectory=backend#de984d71e4f42bd5829a9f2eb2be7617bcef5b0b" }
+source = { git = "https://github.com/CHANGE-EPFL/frame-project?subdirectory=backend#3906f66b7af8bf8b9b40a49ac2fc45e36a68d2fa" }
 dependencies = [
     { name = "aiobotocore" },
     { name = "dynaconf" },
