@@ -20,7 +20,7 @@ def get_closest_info_path() -> str | None:
     home_path = os.path.expanduser("~")
     current_dir = os.getcwd()
 
-    while current_dir != "/":
+    while current_dir != os.path.dirname(current_dir):
         frame_path = os.path.join(current_dir, FRAME_DIR_NAME)
 
         if current_dir != home_path and os.path.exists(frame_path) and os.path.isdir(frame_path):

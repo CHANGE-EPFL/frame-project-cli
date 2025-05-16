@@ -29,13 +29,16 @@ def create_frame_fork(upstream_repo: GithubRepository, github_user: Authenticate
 
 def get_local_frame_repo(github_client: github.Github, github_user: AuthenticatedUser):
     local_repo_path = os.path.join(get_home_info_path(), FRAME_REPO_NAME)
+    logger.debug("Getting local Frame repository")
 
     try:
         local_repo = git.Repo(local_repo_path)
+        logger.debug(f"Found cloned Frame repository at {local_repo_path}")
     except git.NoSuchPathError:
         upstream_repo = github_client.get_repo(FRAME_REPO)
         try:
             fork = github_user.get_repo(FRAME_REPO_NAME)
+            logger.debug(f"Found fork of {upstream_repo.clone_url} for user {github_user.login}")
         except github.UnknownObjectException:
             logger.info(f"Creating fork of {upstream_repo.clone_url} for user {github_user.login}")
             fork = create_frame_fork(upstream_repo, github_user)
@@ -47,6 +50,7 @@ def get_local_frame_repo(github_client: github.Github, github_user: Authenticate
         )
         local_repo.create_remote("upstream", url=upstream_repo.clone_url)
 
+    logger.debug("Fetching upstream repository")
     local_repo.remotes.upstream.fetch()
     return local_repo
 
@@ -77,13 +81,16 @@ def generate_branch_name() -> str:
 def add_model_to_local_frame_repo(local_repo: git.Repo):
     branch_name = generate_branch_name()
 
+    logger.debug("Checking out main branch")
     local_repo.git.checkout("main")
 
     try:
+        logger.debug(f"Creating branch {branch_name} from upstream/main")
         local_repo.git.branch("-f", branch_name, "upstream/main")
     except git.GitCommandError:
         pass
 
+    logger.debug(f"Checking out branch {branch_name}")
     local_repo.git.checkout(branch_name)
 
     external_references_path = os.path.join(str(local_repo.working_tree_dir), EXTERNAL_REFERENCES_PATH)
