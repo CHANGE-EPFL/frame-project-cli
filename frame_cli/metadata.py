@@ -5,10 +5,10 @@ import os
 from git import Repo, InvalidGitRepositoryError
 import requests
 import yaml
-from api.models.metadata_file import MetadataFromFile
 
 from .config import FRAME_METADATA_FILE_NAME, FRAME_METADATA_TEMPLATE_URL
 from .logging import logger
+from .update import install_api_package, CannotInstallFrameAPIError
 
 
 class NotInsideGitRepositoryError(Exception):
@@ -121,6 +121,16 @@ def validate() -> bool:
     except InvalidMetadataFileError:
         logger.info("Invalid yaml file.")
         return False
+
+    try:
+        from api.models.metadata_file import MetadataFromFile
+    except ImportError:
+        try:
+            install_api_package()
+        except CannotInstallFrameAPIError:
+            logger.info("Error installing Frame API package. Please check your internet connection.")
+            return False
+        from api.models.metadata_file import MetadataFromFile
 
     try:
         MetadataFromFile(**metadata)
