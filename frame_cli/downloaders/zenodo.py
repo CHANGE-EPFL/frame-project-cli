@@ -32,7 +32,9 @@ class ZenodoDownloader(Downloader):
     def download(
         self,
         url: str,
+        *args,
         destination: str | None = None,
+        **kwargs,
     ) -> str:
         f"""Download the Zenodo dataset with the given DOI.
 

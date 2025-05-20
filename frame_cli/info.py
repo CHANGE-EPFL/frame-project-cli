@@ -135,7 +135,7 @@ def set_local_model_info(info: dict, model_path: str | None = None) -> None:
         yaml.dump(info, file)
 
 
-def add_local_model_info(name: str, url: str, model_path: str | None = None) -> None:
+def add_local_model_info(name: str, url: str, model_path: str) -> None:
     """Add a local hybrid model info to global dictionary and local model dictionary."""
 
     set_local_model_info(
