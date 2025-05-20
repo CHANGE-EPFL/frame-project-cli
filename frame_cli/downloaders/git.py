@@ -13,8 +13,10 @@ class GitDownloader(Downloader):
     def download(
         self,
         url: str,
+        *args,
         destination: str | None = None,
         branch: str | None = None,
+        **kwargs,
     ) -> str:
         """Download the content at the given URL (https or git protocol).
 
