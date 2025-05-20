@@ -18,7 +18,9 @@ class HydroshareDownloader(Downloader):
     def download(
         self,
         url: str,
+        *args,
         destination: str | None = None,
+        **kwargs,
     ) -> str:
         """Download the content at the given URL.
 
