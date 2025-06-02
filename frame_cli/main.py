@@ -170,7 +170,7 @@ def pull_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
     destination: str | None = typer.Argument(None, help="Destination folder."),
 ) -> None:
-    """Download a hybrid model and seput environment."""
+    """Download a hybrid model and setup environment."""
     pull.pull_model(name, destination)
 
 
