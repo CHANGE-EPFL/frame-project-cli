@@ -1,6 +1,6 @@
 # Frame CLI Documentation
 
-Welcome to the Frame CLI documentation.
+Welcome to the Frame CLI documentation!
 
 ```{toctree}
 :maxdepth: 1
