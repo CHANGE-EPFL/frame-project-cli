@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Sphinx
         run: |
-          "cd docs && python -m sphinx -M html . build"
+          python -m sphinx -M html docs docs/build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
