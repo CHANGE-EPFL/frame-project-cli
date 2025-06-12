@@ -4,18 +4,10 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "docs/**"
-      - "frame_cli/**"
-      - "*.toml"
     tags: ["*"]
   pull_request:
     branches:
       - main
-    paths:
-      - "docs/**"
-      - "frame_cli/**"
-      - "*.toml"
     types: [opened, synchronize, reopened]
 
 concurrency:
