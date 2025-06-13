@@ -25,7 +25,7 @@ To see the list of available commands, run:
 ```bash
 frame --help
 ```
-Hybrid model and component pages show which command must be run to download and setup specific units.
+Hybrid model and component pages on the [Frame library](https://frame-dev.epfl.ch/) show which command must be run to download and setup specific units. Refer to the full [User guide](user_guide.md) for more details on how to use the CLI tool.
 
 You may want to install autocompletion for easier usage. To do so, run:
 ```bash

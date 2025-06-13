@@ -41,6 +41,10 @@ autodoc_default_options = {
 
 html_theme = "press"
 
+# -- Options for MyST
+
+myst_heading_anchors = 3
+
 # -- Options for EPUB output
 epub_show_urls = "footnote"
 

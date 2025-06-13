@@ -3,7 +3,7 @@
 Welcome to the Frame CLI documentation.
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 2
 :caption: Contents
 
 src/user/user_guide
