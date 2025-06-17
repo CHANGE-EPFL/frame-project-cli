@@ -3,7 +3,7 @@
 _Command line interface for managing [Frame hybrid models](https://frame-dev.epfl.ch/)_
 
 [![PyPI version](https://badge.fury.io/py/frame-cli.svg)](https://badge.fury.io/py/frame-cli)
-[![Docs](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml/badge.svg)](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml)
+[![Docs](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml/badge.svg)](https://change-epfl.github.io/frame-project-cli/)
 
 
 # 🐇 Quick start
