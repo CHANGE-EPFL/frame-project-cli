@@ -135,10 +135,10 @@ def show_remote_component(name: str) -> None:
         console.print(f"📜 License: {info['license']}")
 
     console.print("")
-    print_pull_command(console, f"frame pull component {name}")
+    print_pull_command(console, f"frame pull component {name} <LOCAL_MODEL_PATH>")
 
 
-def show_local_component(name: str, hybrid_model: str) -> None:
+def show_local_component(name: str, local_model_path: str) -> None:
     """Show information about a local component."""
     # TODO: implement
     print("Feature not implemented.")

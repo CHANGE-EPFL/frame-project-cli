@@ -77,7 +77,7 @@ def pull_model(name: str, destination: str | None) -> None:
             print(link)
 
 
-def pull_component(name: str, model: str) -> None:
+def pull_component(name: str, local_model_path: str) -> None:
     """Download a component."""
     # TODO: implement
     print("Feature not implemented.")
