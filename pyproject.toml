@@ -67,7 +67,7 @@ testpaths = [
 line-length = 120
 
 [tool.codespell]
-skip = 'uv.lock'
+skip = 'uv.lock,docs/_static/custom.css'
 
 [tool.uv.sources]
 frame-api = { git = "https://github.com/CHANGE-EPFL/frame-project", subdirectory = "backend" }

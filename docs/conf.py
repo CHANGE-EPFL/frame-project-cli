@@ -40,6 +40,14 @@ autodoc_default_options = {
 # -- Options for HTML output
 
 html_theme = "press"
+html_theme_options = {
+    "external_links": [
+        ("FRAME Library", "https://frame-dev.epfl.ch"),
+        ("GitHub", "https://github.com/CHANGE-EPFL/frame-project"),
+    ]
+}
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 
 # -- Options for MyST
 
