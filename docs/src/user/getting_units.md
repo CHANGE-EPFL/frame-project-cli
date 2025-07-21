@@ -11,7 +11,7 @@ or components:
 frame list components
 ```
 
-Use the `--only-local` or `--only-remote` to restrict the lists to only units that are on your computer, or to only units available in the [Frame library](https://frame-dev.epfl.ch). For example:
+Use the `--only-local` or `--only-remote` to restrict the lists to only units that are on your computer, or to only units available in the [FRAME library](https://frame-dev.epfl.ch). For example:
 ```bash
 frame list models --only-remote
 ```
@@ -31,7 +31,7 @@ frame show model tandc
 
 ## `pull`
 
-Use the `pull` command to download a hybrid model or a component from the Frame library to your computer. If the unit's metadata contains information on how to setup an environment to run it, it will be created.
+Use the `pull` command to download a hybrid model or a component from the FRAME library to your computer. If the unit's metadata contains information on how to setup an environment to run it, it will be created.
 
 Example:
 

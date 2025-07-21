@@ -1,7 +1,7 @@
 [project]
 name = "frame-cli"
 dynamic = ["version"]
-description = "Command line interface for managing Frame hybrid models"
+description = "Command line interface for managing FRAME hybrid models"
 authors = [
 	{ name = "Son Pham-Ba", email = "son.phamba@epfl.ch" },
 ]

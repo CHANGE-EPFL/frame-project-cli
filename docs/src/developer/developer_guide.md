@@ -10,7 +10,7 @@ reference
 
 ## 💾 Installation for development
 
-The Frame CLI source code is hosted on [GitHub](https://github.com/CHANGE-EPFL/frame-project-cli). To install Frame CLI for development in your current Python environment, you can use the following command. Feel free to use a virtual environment if you want to keep your system clean. Make sure that `pip` is installed in the current environment before proceeding with the installation.
+The FRAME CLI source code is hosted on [GitHub](https://github.com/CHANGE-EPFL/frame-project-cli). To install FRAME CLI for development in your current Python environment, you can use the following command. Feel free to use a virtual environment if you want to keep your system clean. Make sure that `pip` is installed in the current environment before proceeding with the installation.
 ```bash
 git clone https://github.com/CHANGE-EPFL/frame-project-cli.git
 cd frame-cli

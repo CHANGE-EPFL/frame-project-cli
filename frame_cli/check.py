@@ -47,7 +47,7 @@ def check_uv() -> None:
 
     if shutil.which("uv") is None:
         print(
-            "uv is not installed. Please install it to use Frame CLI:\nhttps://docs.astral.sh/uv/getting-started/installation/"
+            "uv is not installed. Please install it to use FRAME CLI:\nhttps://docs.astral.sh/uv/getting-started/installation/"
         )
     else:
         print("uv is installed.")

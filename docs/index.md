@@ -1,6 +1,6 @@
-# Frame CLI Documentation
+# FRAME CLI Documentation
 
-Welcome to the [Frame CLI](https://github.com/CHANGE-EPFL/frame-project-cli) documentation!
+Welcome to the [FRAME CLI](https://github.com/CHANGE-EPFL/frame-project-cli) documentation!
 
 ```{toctree}
 :maxdepth: 2

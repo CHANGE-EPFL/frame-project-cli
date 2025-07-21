@@ -10,7 +10,7 @@ from .metadata import (
 
 
 def init() -> None:
-    """Create a new Frame metadata file at the root of the current project."""
+    """Create a new FRAME metadata file at the root of the current project."""
 
     try:
         create_metadata_file()

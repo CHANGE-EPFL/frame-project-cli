@@ -1,4 +1,4 @@
-"""Module for manipulating Frame metadata files."""
+"""Module for manipulating FRAME metadata files."""
 
 import os
 
@@ -8,7 +8,7 @@ import yaml
 
 from .config import FRAME_METADATA_FILE_NAME, FRAME_METADATA_TEMPLATE_URL
 from .logging import logger
-from .update import install_api_package, CannotInstallFrameAPIError
+from .update import install_api_package, CannotInstallFRAMEAPIError
 
 
 class NotInsideGitRepositoryError(Exception):
@@ -16,7 +16,7 @@ class NotInsideGitRepositoryError(Exception):
 
 
 class MetadataFileAlreadyExistsError(Exception):
-    """Frame metadata file already exists."""
+    """FRAME metadata file already exists."""
 
 
 class MetadataTemplateFetchError(Exception):
@@ -24,7 +24,7 @@ class MetadataTemplateFetchError(Exception):
 
 
 class MetadataFileNotFoundError(Exception):
-    """Frame metadata file not found."""
+    """FRAME metadata file not found."""
 
 
 class InvalidMetadataFileError(yaml.YAMLError):
@@ -32,7 +32,7 @@ class InvalidMetadataFileError(yaml.YAMLError):
 
 
 def get_metadata_file_path() -> str:
-    """Return the path to the Frame metadata file in the current project.
+    """Return the path to the FRAME metadata file in the current project.
 
     Raises:
         NotInsideGitRepositoryError: If the current directory is not a Git repository.
@@ -46,7 +46,7 @@ def get_metadata_file_path() -> str:
 
 
 def create_metadata_file() -> None:
-    """Create a new Frame metadata file at the root of the current project.
+    """Create a new FRAME metadata file at the root of the current project.
 
     Raises:
         NotInsideGitRepositoryError: If the current directory is not a Git repository.
@@ -69,7 +69,7 @@ def create_metadata_file() -> None:
 
 
 def get_metadata() -> dict:
-    """Return the Frame metadata dictionary from the metadata file.
+    """Return the FRAME metadata dictionary from the metadata file.
 
     Raises:
         NotInsideGitRepositoryError: If the current directory is not a Git repository.
@@ -127,8 +127,8 @@ def validate() -> bool:
     except ImportError:
         try:
             install_api_package()
-        except CannotInstallFrameAPIError:
-            logger.info("Error installing Frame API package. Please check your internet connection.")
+        except CannotInstallFRAMEAPIError:
+            logger.info("Error installing FRAME API package. Please check your internet connection.")
             return False
         from api.models.metadata_file import MetadataFromFile
 
