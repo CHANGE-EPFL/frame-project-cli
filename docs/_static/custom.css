@@ -1213,10 +1213,10 @@ div[class*=highlight-] {
 
 .content .highlight pre {
 	background-color: #4f4f4f;
-	border-radius: 2rem;
+	border-radius: 1.3rem;
 	color: white;
 	font-size: 0.9rem;
-	padding: 0.7rem 0.9rem;
+	padding: 0.7rem 1.0rem;
 }
 
 .content .highlighted {
