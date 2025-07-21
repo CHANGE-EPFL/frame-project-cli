@@ -1,4 +1,4 @@
-"""Command line interface for managing Frame hybrid models"""
+"""Command line interface for managing FRAME hybrid models"""
 
 from importlib.metadata import PackageNotFoundError, version
 

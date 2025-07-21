@@ -15,7 +15,7 @@ from . import (
 )
 
 app = typer.Typer(
-    help="Frame CLI tool to download hybrid models and setup environments.",
+    help="FRAME CLI tool to download hybrid models and setup environments.",
     no_args_is_help=True,
     context_settings={"help_option_names": ["-h", "--help"]},
 )
@@ -41,7 +41,7 @@ app.add_typer(pull_app, name="pull")
 
 def version_callback(value: bool) -> None:
     if value:
-        print(f"Frame CLI {__version__}")
+        print(f"FRAME CLI {__version__}")
         raise typer.Exit()
 
 
@@ -52,7 +52,7 @@ def main(
         "--version",
         "-v",
         callback=version_callback,
-        help="Show the current version of Frame CLI.",
+        help="Show the current version of FRAME CLI.",
     ),
 ) -> None:
     pass
@@ -66,25 +66,25 @@ def check() -> None:
 
 @app.command()
 def version() -> None:
-    """Show the current version of Frame CLI."""
+    """Show the current version of FRAME CLI."""
     version_callback(True)
 
 
 @app.command()
 def update() -> None:
-    """Update Frame CLI, assuming it has been installed with `uv tool install`."""
+    """Update FRAME CLI, assuming it has been installed with `uv tool install`."""
     update_module.update()
 
 
 @app.command()
 def init() -> None:
-    """Create a new Frame metadata file at the root of the current project."""
+    """Create a new FRAME metadata file at the root of the current project."""
     init_module.init()
 
 
 @app.command()
 def validate() -> None:
-    """Validate new/updated Frame metadata file for the current project."""
+    """Validate new/updated FRAME metadata file for the current project."""
     if metadata.validate():
         print("Metadata file is valid.")
     else:
@@ -95,7 +95,7 @@ def validate() -> None:
 def push(
     use_new_token: bool = typer.Option(False, help="Forget the saved GitHub token and ask for a new one."),
 ) -> None:
-    """Submit a pull request to the Frame project with new/updated metadata."""
+    """Submit a pull request to the FRAME project with new/updated metadata."""
     push_module.push(use_new_token)
 
 

@@ -10,7 +10,7 @@ import frame_cli
 
 # -- Project information
 
-project = "Frame CLI"
+project = "FRAME CLI"
 
 copyright = f"2024-{datetime.now().year} EPFL (École Polytechnique Fédérale de Lausanne)"
 author = "Son Pham-Ba"

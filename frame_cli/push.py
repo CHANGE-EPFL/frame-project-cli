@@ -20,7 +20,7 @@ class MissingModelURLError(Exception):
 
 
 class ModelAlreadyTrackedError(Exception):
-    """Exception raised when the model is already tracked by the Frame repository."""
+    """Exception raised when the model is already tracked by the FRAME repository."""
 
 
 def create_frame_fork(upstream_repo: GithubRepository, github_user: AuthenticatedUser) -> GithubRepository:
@@ -29,11 +29,11 @@ def create_frame_fork(upstream_repo: GithubRepository, github_user: Authenticate
 
 def get_local_frame_repo(github_client: github.Github, github_user: AuthenticatedUser):
     local_repo_path = os.path.join(get_home_info_path(), FRAME_REPO_NAME)
-    logger.debug("Getting local Frame repository")
+    logger.debug("Getting local FRAME repository")
 
     try:
         local_repo = git.Repo(local_repo_path)
-        logger.debug(f"Found cloned Frame repository at {local_repo_path}")
+        logger.debug(f"Found cloned FRAME repository at {local_repo_path}")
     except git.NoSuchPathError:
         upstream_repo = github_client.get_repo(FRAME_REPO)
         try:
@@ -111,7 +111,7 @@ def add_model_to_local_frame_repo(local_repo: git.Repo):
 
 
 def push_to_frame_fork(local_repo: git.Repo):
-    logger.info("Pushing changes to Frame fork")
+    logger.info("Pushing changes to FRAME fork")
     local_repo.git.push("origin", generate_branch_name(), force_with_lease=True)
 
 
@@ -137,8 +137,8 @@ def create_pull_request(github_client: github.Github, github_user: Authenticated
 
 
 def validate_integration() -> bool:
-    """Validate metadata file and absence of conflicts with other Frame models."""
-    logger.info("Validating integration with Frame repository")
+    """Validate metadata file and absence of conflicts with other FRAME models."""
+    logger.info("Validating integration with FRAME repository")
 
     frame_api_path = os.path.join(get_home_info_path(), FRAME_REPO_NAME, "backend")
 
@@ -167,7 +167,7 @@ def validate_integration() -> bool:
 
 
 def push(use_new_token: bool = False):
-    """Submit a pull request to the Frame project with new/updated metadata."""
+    """Submit a pull request to the FRAME project with new/updated metadata."""
 
     if not validate_metadata_file():
         print("Metadata file does not follow schema.")
