@@ -81,7 +81,7 @@ def show_remote_model(name: str) -> None:
 def show_local_model(name: str) -> None:
     """Show information about a local hybrid model."""
     # TODO: implement
-    print("Feature not implemented.")
+    print("This feature is not implemented yet.")
 
 
 def show_remote_component(name: str) -> None:
@@ -141,4 +141,4 @@ def show_remote_component(name: str) -> None:
 def show_local_component(name: str, local_model_path: str) -> None:
     """Show information about a local component."""
     # TODO: implement
-    print("Feature not implemented.")
+    print("This feature is not implemented yet.")

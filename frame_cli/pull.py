@@ -80,4 +80,4 @@ def pull_model(name: str, destination: str | None) -> None:
 def pull_component(name: str, local_model_path: str) -> None:
     """Download a component."""
     # TODO: implement
-    print("Feature not implemented.")
+    print("This feature is not implemented yet.")
