@@ -86,7 +86,7 @@ def init() -> None:
 def validate() -> None:
     """Validate new/updated FRAME metadata file for the current project."""
     if metadata.validate():
-        print("Metadata file is valid.")
+        print("Metadata file is valid!")
     else:
         print("Metadata file is not valid.")
 
