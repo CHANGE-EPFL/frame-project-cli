@@ -110,7 +110,8 @@ def get_model_url() -> str | None:
 
 
 def validate() -> bool:
-    # TODO: use frame-project schemas to validate yaml
+    from pydantic import ValidationError
+
     try:
         metadata = get_metadata()
 
@@ -134,8 +135,10 @@ def validate() -> bool:
 
     try:
         MetadataFromFile(**metadata)
-    except Exception as e:
-        logger.info(f"Invalid metadata file: {e}")
+    except ValidationError as e:
+        logger.info("Validation error in metadata file:")
+        for error in e.errors():
+            logger.info(f"- {error['loc']}: {error['msg']}")
         return False
 
     return True
