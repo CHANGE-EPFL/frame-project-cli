@@ -140,5 +140,8 @@ def validate() -> bool:
         for error in e.errors():
             logger.info(f"- {error['loc']}: {error['msg']}")
         return False
+    except Exception as e:
+        logger.info(f"Unexpected error during validation: {e}")
+        return False
 
     return True
