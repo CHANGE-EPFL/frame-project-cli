@@ -4,11 +4,16 @@ import os
 
 from git import Repo, InvalidGitRepositoryError
 import requests
+from typing import TYPE_CHECKING
 import yaml
 
 from .config import FRAME_METADATA_FILE_NAME, FRAME_METADATA_TEMPLATE_URL
 from .logging import logger
 from .update import install_api_package, CannotInstallFRAMEAPIError
+
+
+if TYPE_CHECKING:
+    from api.models.metadata_file import MetadataFromFile
 
 
 class NotInsideGitRepositoryError(Exception):
@@ -109,6 +114,44 @@ def get_model_url() -> str | None:
     return metadata["hybrid_model"].get("url", None)
 
 
+def show_fair_level(metadata: "MetadataFromFile") -> None:
+    from operator import attrgetter
+    from api.models.hybrid_model import HybridModel
+    from api.services.metadata import compute_fair_level, FAIR_LEVEL_PROPERTIES
+
+    model = HybridModel(
+        **metadata.hybrid_model.model_dump(),
+        compatible_physics_based_component_ids=[],
+        compatible_machine_learning_component_ids=[],
+        data=metadata.data,
+    )
+
+    fair_level = compute_fair_level(model)
+    max_fair_level = len(FAIR_LEVEL_PROPERTIES)
+    logger.info(f"FAIR level of the hybrid model: {fair_level}/{max_fair_level}")
+
+    if fair_level < max_fair_level:
+        logger.info(
+            f"To get to a FAIR level of {fair_level + 1}/{max_fair_level},"
+            " make sure to fill in all the following properties: "
+        )
+        for prop in FAIR_LEVEL_PROPERTIES[fair_level]:
+            filled = True
+            try:
+                value = attrgetter(prop)(model)
+                if value is None:
+                    filled = False
+                if isinstance(value, list) and len(value) == 0:
+                    filled = False
+            except AttributeError:
+                filled = False
+
+            logger.info(f"- {prop} ({'OK' if filled else 'MISSING'})")
+
+    else:
+        logger.info("Well done!")
+
+
 def validate() -> bool:
     from pydantic import ValidationError
 
@@ -134,7 +177,7 @@ def validate() -> bool:
         from api.models.metadata_file import MetadataFromFile
 
     try:
-        MetadataFromFile(**metadata)
+        metadata = MetadataFromFile(**metadata)
     except ValidationError as e:
         logger.info("Validation error in metadata file:")
         for error in e.errors():
@@ -143,5 +186,10 @@ def validate() -> bool:
     except Exception as e:
         logger.info(f"Unexpected error during validation: {e}")
         return False
+
+    try:
+        show_fair_level(metadata)
+    except ImportError:
+        logger.info("Could not compute the FAIR level of the hybrid model. Please update FRAME CLI.")
 
     return True
