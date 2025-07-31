@@ -12,6 +12,7 @@ requires-python = ">=3.10,<3.14"
 dependencies = [
 	"gitpython~=3.1.43",
 	"pip>=25.1.1",
+	"pydantic~=2.11.4",
 	"pygithub>=2.6.1",
 	"python-dotenv~=1.0.1",
 	"pyyaml>=6.0.2",
