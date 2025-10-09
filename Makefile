@@ -1,6 +1,6 @@
 install:
 	pip install -e ".[dev]"
-	pre-commit install -t pre-commit -t commit-msg
+	pre-commit install
 
 lint:
 	pre-commit run --all-files
