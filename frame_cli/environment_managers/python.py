@@ -27,8 +27,11 @@ class PythonEnvironmentManager(EnvironmentManager):
         console.print("Setting up Python environment...")
         subprocess.run(["uv", "venv"])
         subprocess.run(["uv", "pip", "install", "pip"])
+
         for file_path in file_paths:
-            if file_path.endswith(".txt"):
+            if file_path == "pyproject.toml":
+                subprocess.run(["uv", "pip", "install", "-e", "."])
+            elif file_path.endswith(".txt"):
                 subprocess.run(["uv", "pip", "install", "-r", file_path])
             else:
                 console.print(f"Unsupported file {file_path}. Skipping...")
