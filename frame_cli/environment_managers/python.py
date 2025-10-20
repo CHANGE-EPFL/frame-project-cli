@@ -1,4 +1,4 @@
-"""Module containing the PythonRequirementsEnvironmentManager class."""
+"""Module containing the PythonEnvironmentManager class."""
 
 import os
 import subprocess
@@ -10,10 +10,10 @@ from rich.panel import Panel
 from .environment_manager import EnvironmentManager
 
 
-class PythonRequirementsEnvironmentManager(EnvironmentManager):
-    """Environment manager for Python requirements."""
+class PythonEnvironmentManager(EnvironmentManager):
+    """Environment manager for Python."""
 
-    type = "python_requirements"
+    type = "python"
 
     def setup(self, destination: str, file_paths: list[str], *args, **kwargs) -> None:
         """Set up the environment for the hybrid model.
@@ -27,8 +27,11 @@ class PythonRequirementsEnvironmentManager(EnvironmentManager):
         console.print("Setting up Python environment...")
         subprocess.run(["uv", "venv"])
         subprocess.run(["uv", "pip", "install", "pip"])
-        for requirement_path in file_paths:
-            subprocess.run(["uv", "pip", "install", "-r", requirement_path])
+        for file_path in file_paths:
+            if file_path.endswith(".txt"):
+                subprocess.run(["uv", "pip", "install", "-r", file_path])
+            else:
+                console.print(f"Unsupported file {file_path}. Skipping...")
 
         console.print("Python environment setup complete. Activate it from the model's root directory with")
         activation_message = f"cd {destination}\n"

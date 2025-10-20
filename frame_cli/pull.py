@@ -7,7 +7,7 @@ import requests
 
 from .config import API_URL
 from .downloaders.git import GitDownloader
-from .environment_managers.python_requirements import PythonRequirementsEnvironmentManager
+from .environment_managers.environment_manager import get_environment_manager
 from .info import add_local_model_info
 from .utils import get_unit_id_and_version
 
@@ -39,13 +39,16 @@ def retrieve_model_info(name: str) -> dict[str, Any] | None:
 
 
 def setup_environment(destination: str, environment: dict[str, Any]) -> None:
-    # TODO: Automate choice of environment manager subclass from environment["type"]
-    if environment["type"] == "python_requirements":
-        environment_manager = PythonRequirementsEnvironmentManager()
-        environment_manager.setup(
-            destination,
-            environment["file_paths"],
-        )
+    environment_manager = get_environment_manager(environment["type"])
+
+    if environment_manager is None:
+        print(f"Cannot setup environment of type {environment['type']}. Skipping...")
+        return
+
+    environment_manager.setup(
+        destination,
+        environment["file_paths"],
+    )
 
 
 def pull_model(name: str, destination: str | None) -> None:
@@ -65,7 +68,8 @@ def pull_model(name: str, destination: str | None) -> None:
     destination = downloader.download(url, destination)
     add_local_model_info(name, url, destination)
 
-    computational_environment = info.get("computational_environment", [])
+    # computational_environment = info.get("computational_environment", [])
+    computational_environment = [{"type": "julia", "file_paths": ["requirements.txt"]}]  # TODO: remove test
     if computational_environment:
         print("Setting up computational environment...")
         for environment in computational_environment:
