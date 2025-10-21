@@ -29,6 +29,9 @@ class PythonEnvironmentManager(EnvironmentManager):
         subprocess.run(["uv", "pip", "install", "pip"])
 
         for file_path in file_paths:
+            if not os.path.isfile(file_path):
+                console.print(f"File {file_path} does not exist. Skipping...")
+                continue
             if file_path == "pyproject.toml":
                 subprocess.run(["uv", "pip", "install", "-e", "."])
             elif file_path.endswith(".txt"):
