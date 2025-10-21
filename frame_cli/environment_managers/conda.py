@@ -40,7 +40,7 @@ class CondaEnvironmentManager(EnvironmentManager):
             )
             return
 
-        console.print("Setting up of Conda environment...")
+        console.print("Setting up Conda environment...")
         for file_path in file_paths:
             if not os.path.isfile(file_path):
                 console.print(f"File {file_path} does not exist. Skipping...")
@@ -48,6 +48,7 @@ class CondaEnvironmentManager(EnvironmentManager):
             if file_path.endswith((".yml", ".yaml")):
                 subprocess.run([conda_command, "env", "create", "-f", file_path, "--prefix", "./.venv", "-y"])
                 console.print(f"Conda environment setup from {file_path} complete. Skipping remaining files...")
+                break
             else:
                 console.print(f"Unsupported file {file_path}. Skipping...")
 

@@ -23,7 +23,7 @@ class JuliaEnvironmentManager(EnvironmentManager):
         """
         os.chdir(destination)
         console = Console()
-        console.print("Setting up of Julia environment...")
+        console.print("Setting up Julia environment...")
 
         try:
             subprocess.run(["julia", "--version"], check=True, capture_output=True)
