@@ -143,10 +143,14 @@ def show_fair_level(metadata: "MetadataFromFile") -> None:
                     filled = False
                 if isinstance(value, list) and len(value) == 0:
                     filled = False
+                if isinstance(value, str) and value.strip() == "":
+                    filled = False
             except AttributeError:
                 filled = False
 
             logger.info(f"- {prop} ({'OK' if filled else 'MISSING'})")
+
+        logger.info("More details about FAIR levels on https://frame.epfl.ch/#/about")
 
     else:
         logger.info("Well done!")
