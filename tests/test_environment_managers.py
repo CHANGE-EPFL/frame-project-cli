@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import pytest
+import subprocess
 
 from frame_cli.environment_managers.environment_manager import get_environment_manager
 
@@ -68,6 +69,19 @@ dependencies = ["numpy"]""")
 
 
 class TestConda:
+    @pytest.fixture(autouse=True)
+    def check_conda_available(self) -> None:
+        """Check if Conda or equivalent is available."""
+
+        conda_commands = ["conda", "mamba", "micromamba"]
+        for conda_command in conda_commands:
+            try:
+                subprocess.run([conda_command, "--version"], check=True, capture_output=True)  # type: ignore
+                return
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                continue
+        pytest.skip("Conda or equivalent is not available. Skipping Conda environment tests.")
+
     def check_setup(self, dir: Path) -> None:
         """Check if the Conda environment was set up correctly."""
 
@@ -110,6 +124,15 @@ dependencies:
 
 
 class TestJulia:
+    @pytest.fixture(autouse=True)
+    def check_julia_available(self) -> None:
+        """Check if Julia is available."""
+
+        try:
+            subprocess.run(["julia", "--version"], check=True, capture_output=True)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            pytest.skip("Julia is not available. Skipping Julia environment tests.")
+
     def check_setup(self, dir: Path) -> None:
         """Check if the Julia environment was set up correctly."""
 
