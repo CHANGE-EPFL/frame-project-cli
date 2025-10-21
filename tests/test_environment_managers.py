@@ -107,3 +107,29 @@ dependencies:
         environment_manager.setup(str(model_dir_path), file_paths)
 
         self.check_setup(model_dir_path)
+
+
+class TestJulia:
+    def check_setup(self, dir: Path) -> None:
+        """Check if the Julia environment was set up correctly."""
+
+        manifest_file_path = dir / "Manifest.toml"
+        if not manifest_file_path.is_file():
+            pytest.fail("Julia environment was not set up correctly: Manifest.toml file not found.")
+
+    def test_pyproject_toml(self, model_dir_path: Path) -> None:
+        """Test Julia environment setup with Project.toml file."""
+
+        project_file_path = model_dir_path / "Project.toml"
+        with open(project_file_path, "w") as f:
+            f.write("""[deps]
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+""")
+
+        environment_manager = get_environment_manager("julia")
+        assert environment_manager is not None
+
+        file_paths = ["Project.toml"]
+        environment_manager.setup(str(model_dir_path), file_paths)
+
+        self.check_setup(model_dir_path)

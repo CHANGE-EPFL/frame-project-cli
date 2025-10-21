@@ -63,13 +63,11 @@ def pull_model(name: str, destination: str | None) -> None:
         print("Error retrieving the model URL.")
         return
 
-    # TODO: Detect which downloader to use
     downloader = GitDownloader()
     destination = downloader.download(url, destination)
     add_local_model_info(name, url, destination)
 
-    # computational_environment = info.get("computational_environment", [])
-    computational_environment = [{"type": "julia", "file_paths": ["requirements.txt"]}]  # TODO: remove test
+    computational_environment = info.get("computational_environment", [])
     if computational_environment:
         print("Setting up computational environment...")
         for environment in computational_environment:
