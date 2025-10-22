@@ -114,13 +114,11 @@ def show_model(
 @show_app.command("component")
 def show_component(
     name: str = typer.Argument(..., help="Component name."),
-    local_model_path: str | None = typer.Argument(
-        None, help="Associated locally installed hybrid model path. If not provided, looks forn a remote component."
-    ),
+    local: bool = typer.Option(False, help="Show locally installed component info."),
 ) -> None:
     """Show information about a component."""
-    if local_model_path:
-        show.show_local_component(name, local_model_path)
+    if local:
+        show.show_local_component(name)
     else:
         show.show_remote_component(name)
 
@@ -172,10 +170,10 @@ def pull_model(
 @pull_app.command("component")
 def pull_component(
     name: str = typer.Argument(..., help="Component name."),
-    local_model_path: str = typer.Argument(..., help="Associated locally installed hybrid model path."),
+    destination: str | None = typer.Argument(None, help="Destination folder."),
 ) -> None:
     """Download a component."""
-    pull.pull_component(name, local_model_path)
+    pull.pull_component(name, destination)
 
 
 if __name__ == "__main__":

@@ -1,13 +1,9 @@
 """Module for `frame show` commands."""
 
-from json import JSONDecodeError
-
-import requests
 from rich.console import Console
 from rich.panel import Panel
 
-from .config import API_URL
-from .utils import get_unit_id_and_version
+from .utils import retrieve_model_info, retrieve_component_info
 
 
 def print_keywords(console: Console, keywords: list[str], style: str) -> None:
@@ -36,24 +32,8 @@ def print_pull_command(console: Console, command: str) -> None:
 
 def show_remote_model(name: str) -> None:
     """Show information about a remote hybrid model."""
-    id, version = get_unit_id_and_version(name)
-    url = f"{API_URL}/hybrid_models/{id}"
-    if version is not None:
-        url += f"?model_version={version}"
-    response = requests.get(url)
-
-    if response.status_code == 404:
-        print(f'Remote hybrid model "{name}" not found.')
-        return
-
-    if response.status_code != 200:
-        print(f"Error fetching remote hybrid model ({response.status_code}). Check the API URL.")
-        return
-
-    try:
-        info = response.json()
-    except JSONDecodeError:
-        print("Error decoding JSON. Check the API URL.")
+    info = retrieve_model_info(name)
+    if info is None:
         return
 
     console = Console()
@@ -86,32 +66,8 @@ def show_local_model(name: str) -> None:
 
 def show_remote_component(name: str) -> None:
     """Show information about a remote component."""
-    id, version = get_unit_id_and_version(name)
-    url_physics_based = f"{API_URL}/components/physics_based/{id}"
-    url_machine_learning = f"{API_URL}/components/machine_learning/{id}"
-    if version is not None:
-        url_physics_based += f"?component_version={version}"
-        url_machine_learning += f"?component_version={version}"
-
-    response = requests.get(url_physics_based)
-    component_type = "Physics-based"
-
-    if response.status_code == 404:
-        response = requests.get(url_machine_learning)
-        component_type = "Machine learning"
-
-    if response.status_code == 404:
-        print(f'Remote component "{name}" not found.')
-        return
-
-    if response.status_code != 200:
-        print(f"Error fetching remote component ({response.status_code}). Check the API URL.")
-        return
-
-    try:
-        info = response.json()
-    except JSONDecodeError:
-        print("Error decoding JSON. Check the API URL.")
+    info, component_type = retrieve_component_info(name)
+    if info is None:
         return
 
     console = Console()
@@ -135,10 +91,10 @@ def show_remote_component(name: str) -> None:
         console.print(f"📜 License: {info['license']}")
 
     console.print("")
-    print_pull_command(console, f"frame pull component {name} <LOCAL_MODEL_PATH>")
+    print_pull_command(console, f"frame pull component {name}")
 
 
-def show_local_component(name: str, local_model_path: str) -> None:
+def show_local_component(name: str) -> None:
     """Show information about a local component."""
     # TODO: implement
     print("This feature is not implemented yet.")

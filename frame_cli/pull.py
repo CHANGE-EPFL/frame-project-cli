@@ -1,41 +1,11 @@
 """Module for `frame pull` commands."""
 
-from json import JSONDecodeError
 from typing import Any
 
-import requests
-
-from .config import API_URL
 from .downloaders.git import GitDownloader
 from .environment_managers.environment_manager import get_environment_manager
 from .info import add_local_model_info
-from .utils import get_unit_id_and_version
-
-
-def retrieve_model_info(name: str) -> dict[str, Any] | None:
-    """Retrieve online info of a hybrid model."""
-
-    id, version = get_unit_id_and_version(name)
-    url = f"{API_URL}/hybrid_models/{id}"
-    if version is not None:
-        url += f"?model_version={version}"
-    response = requests.get(url)
-
-    if response.status_code == 404:
-        print(f'Remote hybrid model "{name}" not found.')
-        return None
-
-    if response.status_code != 200:
-        print(f"Error fetching remote hybrid model ({response.status_code}). Check the API URL.")
-        return None
-
-    try:
-        info = response.json()
-    except JSONDecodeError:
-        print("Error decoding JSON. Check the API URL.")
-        return None
-
-    return info
+from .utils import retrieve_model_info, retrieve_component_info
 
 
 def setup_environment(destination: str, environment: dict[str, Any]) -> None:
@@ -79,7 +49,18 @@ def pull_model(name: str, destination: str | None) -> None:
             print(link)
 
 
-def pull_component(name: str, local_model_path: str) -> None:
+def pull_component(name: str, destination: str | None) -> None:
     """Download a component."""
-    # TODO: implement
-    print("This feature is not implemented yet.")
+    info, _ = retrieve_component_info(name)
+    if info is None:
+        return
+
+    url = info.get("url", None)
+
+    if url is None:
+        print("Error retrieving the model URL.")
+        return
+
+    downloader = GitDownloader()
+    destination = downloader.download(url, destination)
+    # TODO: save info to local
