@@ -58,7 +58,7 @@ def pull_component(name: str, destination: str | None) -> None:
     url = info.get("url", None)
 
     if url is None:
-        print("Error retrieving the model URL.")
+        print("Error retrieving the component URL.")
         return
 
     downloader = GitDownloader()
