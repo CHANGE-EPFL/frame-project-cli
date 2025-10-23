@@ -37,25 +37,17 @@ class InvalidMetadataFileError(yaml.YAMLError):
 
 
 def get_metadata_file_path() -> str:
-    """Return the path to the FRAME metadata file in the current project.
-
-    Raises:
-        NotInsideGitRepositoryError: If the current directory is not a Git repository.
-    """
+    """Return the path to the FRAME metadata file in the current project."""
     try:
         repo = Repo(search_parent_directories=True)
-    except InvalidGitRepositoryError:
-        raise NotInsideGitRepositoryError
+        return os.path.join(repo.working_tree_dir, FRAME_METADATA_FILE_NAME)
 
-    return os.path.join(repo.working_tree_dir, FRAME_METADATA_FILE_NAME)
+    except InvalidGitRepositoryError:
+        return os.path.join(os.getcwd(), FRAME_METADATA_FILE_NAME)
 
 
 def create_metadata_file() -> None:
-    """Create a new FRAME metadata file at the root of the current project.
-
-    Raises:
-        NotInsideGitRepositoryError: If the current directory is not a Git repository.
-    """
+    """Create a new FRAME metadata file at the root of the current project."""
     metadata_file_path = get_metadata_file_path()
 
     if os.path.exists(metadata_file_path):
@@ -73,11 +65,16 @@ def create_metadata_file() -> None:
         f.write(response.text)
 
 
+def metadata_file_exists() -> bool:
+    """Check if the FRAME metadata file exists in the current project."""
+    metadata_file_path = get_metadata_file_path()
+    return os.path.exists(metadata_file_path)
+
+
 def get_metadata() -> dict:
     """Return the FRAME metadata dictionary from the metadata file.
 
     Raises:
-        NotInsideGitRepositoryError: If the current directory is not a Git repository.
         YAMLError: If the metadata file is not a valid YAML file.
     """
     metadata_file_path = get_metadata_file_path()
