@@ -142,20 +142,10 @@ def list_models(
 
 @list_app.command("components")
 def list_components(
-    only_local: bool = typer.Option(False, help="List only locally installed hybrid models."),
-    only_remote: bool = typer.Option(False, help="List only remote hybrid models."),
     type: listing.ComponentType | None = typer.Option(None, help="Filter by component type."),
 ) -> None:
-    """List installed and remote components."""
-    if only_local and only_remote:
-        print("--only-local and --only-remote options are mutually exclusive. Choose one.")
-        return
-
-    if not only_local:
-        listing.list_remote_components(type)
-
-    if not only_remote:
-        listing.list_local_components(type)
+    """List remote components."""
+    listing.list_remote_components(type)
 
 
 @pull_app.command("model")

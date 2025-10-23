@@ -1,10 +1,12 @@
 """Configuration variables."""
 
+import contextlib
 import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+with contextlib.redirect_stdout(None), contextlib.redirect_stderr(None):
+    load_dotenv(verbose=False)
 
 LOGGING_LEVEL = os.getenv("FRAME_CLI_LOGGING_LEVEL", "INFO")
 API_URL = os.getenv("FRAME_CLI_API_URL", "https://frame-dev.epfl.ch/api/")
