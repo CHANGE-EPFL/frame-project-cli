@@ -160,7 +160,9 @@ def get_github_token(use_new_token: bool = False) -> str:
     global_info = get_global_info()
 
     if "github_token" not in global_info or use_new_token:
-        print("Create a GitHub token with `repo` scope: https://github.com/settings/tokens/new")
+        print(
+            "Use the following link to create a classical GitHub token with `repo` scope: https://github.com/settings/tokens/new"
+        )
         github_token = input("GitHub token: ")
         global_info["github_token"] = github_token
         set_global_info(global_info)

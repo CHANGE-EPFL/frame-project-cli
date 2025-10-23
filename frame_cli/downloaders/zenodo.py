@@ -18,6 +18,7 @@ from rich.progress import (
 )
 from rich.status import Status
 
+from ..config import REQUESTS_TIMEOUT
 from ..logging import logger
 from .downloader import Downloader
 
@@ -56,7 +57,7 @@ class ZenodoDownloader(Downloader):
         url = f"https://{host}/api/records/{dataset_id}"
 
         # Scan record
-        response = requests.get(url)
+        response = requests.get(url, timeout=REQUESTS_TIMEOUT)
         _check_request_response(response, f'getting Zenodo record "{dataset_id}"')
         record = response.json()
 

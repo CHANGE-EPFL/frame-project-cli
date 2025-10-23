@@ -5,7 +5,7 @@ import shutil
 
 import requests
 
-from .config import API_URL
+from .config import API_URL, REQUESTS_TIMEOUT
 
 
 def check() -> None:
@@ -20,7 +20,7 @@ def check_api() -> None:
 
     url = f"{API_URL}/healthz"
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=REQUESTS_TIMEOUT)
     except Exception:
         print("API is not accessible. Check the API URL.")
         return

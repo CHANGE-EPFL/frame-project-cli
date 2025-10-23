@@ -36,14 +36,18 @@ class InvalidMetadataFileError(yaml.YAMLError):
     """Invalid metadata file."""
 
 
-def get_metadata_file_path() -> str:
+def get_metadata_file_path(base_dir: str | None = None) -> str:
     """Return the path to the FRAME metadata file in the current project."""
     try:
         repo = Repo(search_parent_directories=True)
-        return os.path.join(repo.working_tree_dir, FRAME_METADATA_FILE_NAME)
+        metadata_file_path = os.path.join(repo.working_tree_dir, FRAME_METADATA_FILE_NAME)
 
     except InvalidGitRepositoryError:
-        return os.path.join(os.getcwd(), FRAME_METADATA_FILE_NAME)
+        if base_dir is None:
+            base_dir = os.getcwd()
+        metadata_file_path = os.path.join(base_dir, FRAME_METADATA_FILE_NAME)
+
+    return metadata_file_path
 
 
 def create_metadata_file() -> None:
@@ -65,9 +69,9 @@ def create_metadata_file() -> None:
         f.write(response.text)
 
 
-def metadata_file_exists() -> bool:
+def metadata_file_exists(base_dir: str | None = None) -> bool:
     """Check if the FRAME metadata file exists in the current project."""
-    metadata_file_path = get_metadata_file_path()
+    metadata_file_path = get_metadata_file_path(base_dir)
     return os.path.exists(metadata_file_path)
 
 

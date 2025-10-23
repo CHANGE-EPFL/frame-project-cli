@@ -9,7 +9,7 @@ from .environment_managers.environment_manager import get_environment_manager
 from .info import add_local_model_info
 from .metadata import metadata_file_exists
 from .utils import retrieve_model_info, retrieve_component_info
-from .config import FRAME_METADATA_FILE_NAME, API_URL
+from .config import FRAME_METADATA_FILE_NAME, API_URL, REQUESTS_TIMEOUT
 from .logging import logger
 
 
@@ -32,7 +32,7 @@ def pull_metadata_file(model_id: str, model_version: str | None, dir_path: str) 
     if model_version is not None:
         url += f"?model_version={model_version}"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=REQUESTS_TIMEOUT)
     if response.status_code != 200:
         logger.error(f"Error retrieving FRAME metadata file. ({response.status_code}, {url})")
         return
@@ -68,7 +68,7 @@ def pull_model(name: str, destination: str | None) -> None:
         for link in info["documentation"]:
             print(link)
 
-    if not metadata_file_exists():
+    if not metadata_file_exists(destination):
         logger.info("Downloading FRAME metadata file...")
         pull_metadata_file(info.get("id", ""), info.get("version", None), destination)
 

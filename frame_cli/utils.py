@@ -4,7 +4,7 @@ from json import JSONDecodeError
 import requests
 from typing import Any
 
-from .config import API_URL
+from .config import API_URL, REQUESTS_TIMEOUT
 
 
 def get_unit_id_and_version(name: str) -> tuple[str, str | None]:
@@ -26,7 +26,7 @@ def retrieve_model_info(name: str) -> dict[str, Any] | None:
     url = f"{API_URL}/hybrid_models/{id}"
     if version is not None:
         url += f"?model_version={version}"
-    response = requests.get(url)
+    response = requests.get(url, timeout=REQUESTS_TIMEOUT)
 
     if response.status_code == 404:
         print(f'Remote hybrid model "{name}" not found.')
@@ -55,11 +55,11 @@ def retrieve_component_info(name: str) -> tuple[dict[str, Any] | None, str | Non
         url_physics_based += f"?component_version={version}"
         url_machine_learning += f"?component_version={version}"
 
-    response = requests.get(url_physics_based)
+    response = requests.get(url_physics_based, timeout=REQUESTS_TIMEOUT)
     component_type = "Physics-based"
 
     if response.status_code == 404:
-        response = requests.get(url_machine_learning)
+        response = requests.get(url_machine_learning, timeout=REQUESTS_TIMEOUT)
         component_type = "Machine learning"
 
     if response.status_code == 404:

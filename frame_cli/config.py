@@ -21,3 +21,4 @@ FRAME_REPO_OWNER = "CHANGE-EPFL"
 FRAME_REPO_NAME = "frame-project"
 FRAME_REPO = f"{FRAME_REPO_OWNER}/{FRAME_REPO_NAME}"
 EXTERNAL_REFERENCES_PATH = os.path.join("backend", "api", "metadata_files", "external_references.yaml")
+REQUESTS_TIMEOUT = 10  # seconds

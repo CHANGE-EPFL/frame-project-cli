@@ -8,7 +8,7 @@ import requests
 from rich.console import Console
 from rich.table import Table
 
-from .config import API_URL
+from .config import API_URL, REQUESTS_TIMEOUT
 from .info import get_local_models_info
 
 
@@ -20,7 +20,7 @@ class ComponentType(str, Enum):
 def list_remote_models() -> None:
     """List remote hybrid models."""
     url = f"{API_URL}/hybrid_models/ids/"
-    response = requests.get(url)
+    response = requests.get(url, timeout=REQUESTS_TIMEOUT)
 
     if response.status_code != 200:
         print(f"Error fetching remote hybrid models ({response.status_code}). Check the API URL.")
@@ -72,7 +72,7 @@ def list_remote_components(type: ComponentType | None) -> None:
             url += "physics_based_ids/"
         case ComponentType.machine_learning:
             url += "machine_learning_ids/"
-    response = requests.get(url)
+    response = requests.get(url, timeout=REQUESTS_TIMEOUT)
 
     if response.status_code != 200:
         print(f"Error fetching remote components ({response.status_code}). Check the API URL.")
