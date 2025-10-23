@@ -99,9 +99,3 @@ def list_remote_components(type: ComponentType | None) -> None:
     console = Console()
     console.print("")
     console.print(table)
-
-
-def list_local_components(type: ComponentType | None) -> None:
-    """List installed components."""
-    # TODO: implement
-    print("This feature is not implemented.")

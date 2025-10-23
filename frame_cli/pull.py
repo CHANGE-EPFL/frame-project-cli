@@ -63,4 +63,3 @@ def pull_component(name: str, destination: str | None) -> None:
 
     downloader = GitDownloader()
     destination = downloader.download(url, destination)
-    # TODO: save info to local

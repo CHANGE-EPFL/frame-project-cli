@@ -58,12 +58,6 @@ def show_remote_model(name: str) -> None:
     print_pull_command(console, f"frame pull model {name}")
 
 
-def show_local_model(name: str) -> None:
-    """Show information about a local hybrid model."""
-    # TODO: implement
-    print("This feature is not implemented yet.")
-
-
 def show_remote_component(name: str) -> None:
     """Show information about a remote component."""
     info, component_type = retrieve_component_info(name)
@@ -92,9 +86,3 @@ def show_remote_component(name: str) -> None:
 
     console.print("")
     print_pull_command(console, f"frame pull component {name}")
-
-
-def show_local_component(name: str) -> None:
-    """Show information about a local component."""
-    # TODO: implement
-    print("This feature is not implemented yet.")

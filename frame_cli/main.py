@@ -102,25 +102,17 @@ def push(
 @show_app.command("model")
 def show_model(
     name: str = typer.Argument(..., help="Hybrid model name."),
-    local: bool = typer.Option(False, help="Show locally installed hybrid model info."),
 ) -> None:
     """Show information about a hybrid model."""
-    if local:
-        show.show_local_model(name)
-    else:
-        show.show_remote_model(name)
+    show.show_remote_model(name)
 
 
 @show_app.command("component")
 def show_component(
     name: str = typer.Argument(..., help="Component name."),
-    local: bool = typer.Option(False, help="Show locally installed component info."),
 ) -> None:
     """Show information about a component."""
-    if local:
-        show.show_local_component(name)
-    else:
-        show.show_remote_component(name)
+    show.show_remote_component(name)
 
 
 @list_app.command("models")
