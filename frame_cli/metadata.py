@@ -129,10 +129,10 @@ def show_fair_level(metadata: "MetadataFromFile") -> None:
 
     fair_level = compute_fair_level(model)
     max_fair_level = len(FAIR_LEVEL_PROPERTIES)
-    logger.info(f"FAIR level of the hybrid model: {fair_level}/{max_fair_level}")
+    print(f"FAIR level of the hybrid model: {fair_level}/{max_fair_level}")
 
     if fair_level < max_fair_level:
-        logger.info(
+        print(
             f"To get to a FAIR level of {fair_level + 1}/{max_fair_level},"
             " make sure to fill in all the following properties: "
         )
@@ -149,12 +149,12 @@ def show_fair_level(metadata: "MetadataFromFile") -> None:
             except AttributeError:
                 filled = False
 
-            logger.info(f"- {prop} ({'OK' if filled else 'MISSING'})")
+            print(f"- {prop} ({'OK' if filled else 'MISSING'})")
 
-        logger.info("More details about FAIR levels on https://frame.epfl.ch/#/about")
+        print("More details about FAIR levels on https://frame.epfl.ch/#/about\n")
 
     else:
-        logger.info("Well done!")
+        print("Well done!")
 
 
 def validate() -> bool:
@@ -164,11 +164,11 @@ def validate() -> bool:
         metadata = get_metadata()
 
     except MetadataFileNotFoundError:
-        logger.info("Metadata file not found. Please run `frame init` to create one.")
+        print("Metadata file not found. Please run `frame init` to create one.")
         return False
 
     except InvalidMetadataFileError:
-        logger.info("Invalid yaml file.")
+        print("Invalid yaml file.")
         return False
 
     try:
@@ -177,24 +177,24 @@ def validate() -> bool:
         try:
             install_api_package()
         except CannotInstallFRAMEAPIError:
-            logger.info("Error installing FRAME API package. Please check your internet connection.")
+            print("Error installing FRAME API package. Please check your internet connection.")
             return False
         from api.models.metadata_file import MetadataFromFile
 
     try:
         metadata = MetadataFromFile(**metadata)
     except ValidationError as e:
-        logger.info("Validation error in metadata file:")
+        print("Validation error in metadata file:")
         for error in e.errors():
-            logger.info(f"- {error['loc']}: {error['msg']}")
+            print(f"- {error['loc']}: {error['msg']}")
         return False
     except Exception as e:
-        logger.info(f"Unexpected error during validation: {e}")
+        print(f"Unexpected error during validation: {e}")
         return False
 
     try:
         show_fair_level(metadata)
     except ImportError:
-        logger.info("Could not compute the FAIR level of the hybrid model. Please update FRAME CLI.")
+        print("Could not compute the FAIR level of the hybrid model. Please update FRAME CLI.")
 
     return True
