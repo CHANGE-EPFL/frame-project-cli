@@ -2,9 +2,9 @@
 
 # -- Path setup --------------------------------------------------------------
 
-from datetime import datetime
 import os
 import sys
+from datetime import datetime
 
 import frame_cli
 

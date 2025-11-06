@@ -1,7 +1,7 @@
 """Check installation and API access."""
 
-from json import JSONDecodeError
 import shutil
+from json import JSONDecodeError
 
 import requests
 

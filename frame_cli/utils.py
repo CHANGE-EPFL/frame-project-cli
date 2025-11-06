@@ -1,8 +1,9 @@
 """Set of functions used in multiple other modules."""
 
 from json import JSONDecodeError
-import requests
 from typing import Any
+
+import requests
 
 from .config import API_URL, REQUESTS_TIMEOUT
 

@@ -2,10 +2,10 @@
 
 from .config import FRAME_METADATA_FILE_NAME
 from .metadata import (
-    create_metadata_file,
-    NotInsideGitRepositoryError,
     MetadataFileAlreadyExistsError,
     MetadataTemplateFetchError,
+    NotInsideGitRepositoryError,
+    create_metadata_file,
 )
 
 

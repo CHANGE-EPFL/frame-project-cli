@@ -1,8 +1,8 @@
 """Module for `frame list` commands."""
 
+import os
 from enum import Enum
 from json import JSONDecodeError
-import os
 
 import requests
 from rich.console import Console

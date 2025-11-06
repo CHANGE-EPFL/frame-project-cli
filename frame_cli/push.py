@@ -2,14 +2,14 @@
 
 import os
 import subprocess
-import yaml
 
 import git
 import github
+import yaml
 from github.AuthenticatedUser import AuthenticatedUser
 from github.Repository import Repository as GithubRepository
 
-from .config import FRAME_REPO, FRAME_REPO_NAME, EXTERNAL_REFERENCES_PATH
+from .config import EXTERNAL_REFERENCES_PATH, FRAME_REPO, FRAME_REPO_NAME
 from .info import get_github_token, get_home_info_path, get_local_model_info
 from .logging import logger
 from .metadata import validate as validate_metadata_file

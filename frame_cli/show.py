@@ -3,7 +3,7 @@
 from rich.console import Console
 from rich.panel import Panel
 
-from .utils import retrieve_model_info, retrieve_component_info
+from .utils import retrieve_component_info, retrieve_model_info
 
 
 def print_keywords(console: Console, keywords: list[str], style: str) -> None:

@@ -1,16 +1,15 @@
 """Module for manipulating FRAME metadata files."""
 
 import os
-
-from git import Repo, InvalidGitRepositoryError
-import requests
 from typing import TYPE_CHECKING
+
+import requests
 import yaml
+from git import InvalidGitRepositoryError, Repo
 
 from .config import FRAME_METADATA_FILE_NAME, FRAME_METADATA_TEMPLATE_URL
 from .logging import logger
-from .update import install_api_package, CannotInstallFRAMEAPIError
-
+from .update import CannotInstallFRAMEAPIError, install_api_package
 
 if TYPE_CHECKING:
     from api.models.metadata_file import MetadataFromFile
@@ -117,8 +116,9 @@ def get_model_url() -> str | None:
 
 def show_fair_level(metadata: "MetadataFromFile") -> None:
     from operator import attrgetter
+
     from api.models.hybrid_model import HybridModel
-    from api.services.metadata import compute_fair_level, FAIR_LEVEL_PROPERTIES
+    from api.services.metadata import FAIR_LEVEL_PROPERTIES, compute_fair_level
 
     model = HybridModel(
         **metadata.hybrid_model.model_dump(),

@@ -4,13 +4,21 @@ import typer
 
 from . import (
     __version__,
-    check as check_module,
-    init as init_module,
     listing,
     metadata,
     pull,
-    push as push_module,
     show,
+)
+from . import (
+    check as check_module,
+)
+from . import (
+    init as init_module,
+)
+from . import (
+    push as push_module,
+)
+from . import (
     update as update_module,
 )
 

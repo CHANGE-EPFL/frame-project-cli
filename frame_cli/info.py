@@ -5,7 +5,7 @@ import os
 import yaml
 
 from .config import FRAME_DIR_NAME, INFO_FILE_NAME
-from .metadata import get_model_name, get_model_url, get_metadata_file_path
+from .metadata import get_metadata_file_path, get_model_name, get_model_url
 
 
 def get_home_info_path() -> str:

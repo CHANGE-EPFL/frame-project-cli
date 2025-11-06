@@ -1,8 +1,8 @@
 import os
+import subprocess
 from pathlib import Path
 
 import pytest
-import subprocess
 
 from frame_cli.environment_managers.environment_manager import get_environment_manager
 

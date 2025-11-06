@@ -3,7 +3,7 @@ build
 coverage.xml
 *.egg-info
 dist
-.env
+.env*
 lcov.info
 __pycache__
 

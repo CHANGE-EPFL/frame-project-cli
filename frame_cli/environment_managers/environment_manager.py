@@ -1,10 +1,10 @@
 """Module containing the EnvironmentManager abstract base class."""
 
-from abc import ABC, abstractmethod
 import importlib
 import inspect
 import os
 import pkgutil
+from abc import ABC, abstractmethod
 
 
 class EnvironmentManager(ABC):

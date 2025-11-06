@@ -4,13 +4,13 @@ from typing import Any
 
 import requests
 
+from .config import API_URL, FRAME_METADATA_FILE_NAME, REQUESTS_TIMEOUT
 from .downloaders.git import GitDownloader
 from .environment_managers.environment_manager import get_environment_manager
 from .info import add_local_model_info
-from .metadata import metadata_file_exists
-from .utils import retrieve_model_info, retrieve_component_info
-from .config import FRAME_METADATA_FILE_NAME, API_URL, REQUESTS_TIMEOUT
 from .logging import logger
+from .metadata import metadata_file_exists
+from .utils import retrieve_component_info, retrieve_model_info
 
 
 def setup_environment(destination: str, environment: dict[str, Any]) -> None:
