@@ -1,6 +1,6 @@
 # Adding new hybrid models or components
 
-To contribute to the [FRAME library](https://frame-dev.epfl.ch) of hybrid models and components, you may follow these steps:
+To contribute to the [FRAME library](https://frame.epfl.ch) of hybrid models and components, you may follow these steps:
 1. Use the CLI tool to [create a FRAME metadata file](create-a-frame-metadata-file).
 2. [Fill the metadata file](filling-the-metadata-file).
 3. [Validate the metadata file](validate-the-metadata-file) to ensure it follows the FRAME metadata schema.

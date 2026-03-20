@@ -9,7 +9,7 @@ with contextlib.redirect_stdout(None), contextlib.redirect_stderr(None):
     load_dotenv()
 
 LOGGING_LEVEL = os.getenv("FRAME_CLI_LOGGING_LEVEL", "INFO")
-API_URL = os.getenv("FRAME_CLI_API_URL", "https://frame-dev.epfl.ch/api/")
+API_URL = os.getenv("FRAME_CLI_API_URL", "https://frame.epfl.ch/api/")
 FRAME_DIR_NAME = ".frame-cli"
 INFO_FILE_NAME = "info.yaml"
 FRAME_METADATA_FILE_NAME = "frame_metadata.yaml"

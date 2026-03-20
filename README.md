@@ -1,6 +1,6 @@
 # FRAME CLI
 
-_Command line interface for managing [FRAME hybrid models](https://frame-dev.epfl.ch/)_
+_Command line interface for managing [FRAME hybrid models](https://frame.epfl.ch/)_
 
 [![PyPI version](https://badge.fury.io/py/frame-cli.svg)](https://badge.fury.io/py/frame-cli)
 [![Docs](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml/badge.svg)](https://github.com/CHANGE-EPFL/frame-project-cli/actions/workflows/docs.yaml)

@@ -2,7 +2,7 @@
 
 ## `list`
 
-Use the `list` command to list the [available](https://frame-dev.epfl.ch) and downloaded hybrid models and components. You can list either hybrid models:
+Use the `list` command to list the [available](https://frame.epfl.ch) and downloaded hybrid models and components. You can list either hybrid models:
 ```bash
 frame list models
 ```
@@ -11,7 +11,7 @@ or components:
 frame list components
 ```
 
-Use the `--only-local` or `--only-remote` to restrict the lists to only units that are on your computer, or to only units available in the [FRAME library](https://frame-dev.epfl.ch). For example:
+Use the `--only-local` or `--only-remote` to restrict the lists to only units that are on your computer, or to only units available in the [FRAME library](https://frame.epfl.ch). For example:
 ```bash
 frame list models --only-remote
 ```

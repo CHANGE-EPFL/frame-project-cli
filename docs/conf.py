@@ -42,7 +42,7 @@ autodoc_default_options = {
 html_theme = "press"
 html_theme_options = {
     "external_links": [
-        ("FRAME Library", "https://frame-dev.epfl.ch"),
+        ("FRAME Library", "https://frame.epfl.ch"),
         ("GitHub", "https://github.com/CHANGE-EPFL/frame-project"),
     ]
 }
