@@ -7,12 +7,12 @@ authors = [
 ]
 license = {text = "GPL-3.0-or-later"}
 readme = "README.md"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.10"
 
 dependencies = [
 	"gitpython~=3.1.43",
 	"pip>=25.1.1",
-	"pydantic~=2.11.4",
+	"pydantic>=2.11.4,<3.0.0",
 	"pygithub>=2.6.1",
 	"python-dotenv~=1.0.1",
 	"pyyaml>=6.0.2",
