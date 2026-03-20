@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +27,7 @@ jobs:
         run: |
           pip install uv
           pip install -e ".[test]"
+          pip install git+https://github.com/CHANGE-EPFL/frame-project#subdirectory=backend
 
       - name: Test with pytest
         run: |
